@@ -140,6 +140,15 @@ def mark_dirs(matches):
             out.append(x+'/')
         else:
             out.append(x)
+
+    # If there is a unique completion readline will automatically close the
+    # string. To prevent the behavior, we add a '...' entry to non-empty
+    # directories.
+    if len(matches) == 1:
+        x = matches[0]
+        if isdir(x) and len(os.listdir(x)):
+            out.append(x+'/...')
+
     return out
 
 
