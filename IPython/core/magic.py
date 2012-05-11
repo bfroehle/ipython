@@ -558,8 +558,12 @@ Currently the magic system has the following functions:\n"""
         if "*" in oname:
             self.magic_psearch(oname)
         else:
-            self.shell._inspect('pinfo', oname, detail_level=detail_level,
-                                namespaces=namespaces)
+            found = self.shell._inspect('pinfo', oname,
+                                        detail_level=detail_level,
+                                        namespaces=namespaces)
+            if found == 'not found':
+                # One last try, using pydoc
+                help(str(oname))
 
     def magic_pinfo2(self, parameter_s='', namespaces=None):
         """Provide extra detailed information about an object.
