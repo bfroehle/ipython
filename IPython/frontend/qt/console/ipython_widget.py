@@ -106,6 +106,7 @@ class IPythonWidget(FrontendWidget):
     _payload_source_exit = zmq_shell_source + '.ask_exit'
     _payload_source_next_input = zmq_shell_source + '.set_next_input'
     _payload_source_page = 'IPython.zmq.page.page'
+    _payload_source_rewrite = zmq_shell_source + '.auto_rewrite_input'
     _retrying_history_request = False
 
     #---------------------------------------------------------------------------
@@ -120,7 +121,9 @@ class IPythonWidget(FrontendWidget):
             self._payload_source_edit : self._handle_payload_edit,
             self._payload_source_exit : self._handle_payload_exit,
             self._payload_source_page : self._handle_payload_page,
-            self._payload_source_next_input : self._handle_payload_next_input }
+            self._payload_source_next_input : self._handle_payload_next_input,
+            self._payload_source_rewrite : self._handle_payload_rewrite,
+            }
         self._previous_prompt_obj = None
         self._keep_kernel_on_exit = None
 
@@ -496,6 +499,15 @@ class IPythonWidget(FrontendWidget):
         body = '&nbsp;' * space_count + end_chars
         return '<span class="in-prompt">%s</span>' % body
 
+    def _make_rewrite_prompt(self, prompt):
+        """ Given a plain text version of an In promt, retuns an HTML
+            auto rewrite prompt.
+        """
+        end_chars = '> '
+        dash_count = len(prompt.lstrip('\n')) - len(end_chars)
+        body = '-' * dash_count + end_chars
+        return '<span class="in-prompt">%s</span>' % body
+
     def _make_out_prompt(self, number):
         """ Given a prompt number, returns an HTML Out prompt.
         """
@@ -526,6 +538,11 @@ class IPythonWidget(FrontendWidget):
             self._page(item['html'], html=True)
         else:
             self._page(item['text'], html=False)
+
+    def _handle_payload_rewrite(self, item):
+        self._append_html(self._make_rewrite_prompt(self._prompt), True)
+        self._append_plain_text(item['cmd'], True)
+        self._append_plain_text('\n', True)
 
     #------ Trait change handlers --------------------------------------------
 

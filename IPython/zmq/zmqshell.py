@@ -142,13 +142,12 @@ class ZMQInteractiveShell(InteractiveShell):
     def auto_rewrite_input(self, cmd):
         """Called to show the auto-rewritten input for autocall and friends.
 
-        FIXME: this payload is currently not correctly processed by the
-        frontend.
+        FIXME: this payload is currently not correctly processed by all
+        frontends.
         """
-        new = self.prompt_manager.render('rewrite') + cmd
         payload = dict(
             source='IPython.zmq.zmqshell.ZMQInteractiveShell.auto_rewrite_input',
-            transformed_input=new,
+            cmd=cmd,
             )
         self.payload_manager.write_payload(payload)
 
