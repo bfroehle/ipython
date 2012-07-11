@@ -16,6 +16,8 @@ Author: Christian Boos
 # Imports
 #-----------------------------------------------------------------------------
 
+import sys
+
 from IPython.core.interactiveshell import InteractiveShell
 from IPython.external.qt_for_kernel import QtCore, QtGui
 from IPython.lib.inputhook import allow_CTRL_C, ignore_CTRL_C, stdin_ready
@@ -85,12 +87,20 @@ def create_inputhook_qt4(mgr, app=None):
                 return 0
             app.processEvents(QtCore.QEventLoop.AllEvents, 300)
             if not stdin_ready():
-                timer = QtCore.QTimer()
-                timer.timeout.connect(app.quit)
-                while not stdin_ready():
-                    timer.start(50)
+                # See python-qt4/sip/QtCore/qcoreapplication.sip
+                if sys.platform == 'win32': # Proxy for Q_OS_WIN32 (?)
+                    timer = QtCore.QTimer()
+                    timer.timeout.connect(app.quit)
+                    while not stdin_ready():
+                        timer.start(50)
+                        app.exec_()
+                        timer.stop()
+                    timer.timeout.disconnect(app.quit)
+                else:
+                    notifier = QtCore.QSocketNotifier(0, QtCore.QSocketNotifier.Read)
+                    notifier.activated[int].connect(app.quit)
                     app.exec_()
-                    timer.stop()
+                    notifier.activated[int].disconnect(app.quit)
         except KeyboardInterrupt:
             ignore_CTRL_C()
             got_kbdint[0] = True
