@@ -655,10 +655,8 @@ except NameError:
 #: printers for builtin types
 _type_pprinters = {
     int:                        _repr_pprint,
-    long:                       _repr_pprint,
     float:                      _repr_pprint,
     str:                        _repr_pprint,
-    unicode:                    _repr_pprint,
     tuple:                      _seq_pprinter_factory('(', ')', tuple),
     list:                       _seq_pprinter_factory('[', ']', list),
     dict:                       _dict_pprinter_factory('{', '}', dict),
@@ -670,7 +668,6 @@ _type_pprinters = {
     type:                       _type_pprint,
     types.FunctionType:         _function_pprint,
     types.BuiltinFunctionType:  _function_pprint,
-    types.SliceType:            _repr_pprint,
     types.MethodType:           _repr_pprint,
     
     datetime.datetime:          _repr_pprint,
@@ -678,16 +675,16 @@ _type_pprinters = {
     _exception_base:            _exception_pprint
 }
 
-try:
+if sys.version_info[0] >=3:
+    _type_pprinters[range] = _repr_pprint
+    _type_pprinters[slice] = _repr_pprint
+else:
     _type_pprinters[types.DictProxyType] = _dict_pprinter_factory('<dictproxy {', '}>')
     _type_pprinters[types.ClassType] = _type_pprint
-except AttributeError: # Python 3
-    pass
-    
-try:
+    _type_pprinters[unicode] = _repr_pprint
+    _type_pprinters[long] = _repr_pprint
     _type_pprinters[xrange] = _repr_pprint
-except NameError:
-    _type_pprinters[range] = _repr_pprint
+    _type_pprinters[types.SliceType] = _repr_pprint
 
 #: printers for types specified by name
 _deferred_type_pprinters = {
