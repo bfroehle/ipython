@@ -38,7 +38,10 @@ _scheme_default = 'Linux'
 
 
 # Imports
-import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 import keyword
 import os
 import optparse
@@ -144,13 +147,13 @@ class Parser:
 
         string_output = 0
         if out == 'str' or self.out == 'str' or \
-           isinstance(self.out,StringIO.StringIO):
+           isinstance(self.out, StringIO):
             # XXX - I don't really like this state handling logic, but at this
             # point I don't want to make major changes, so adding the
             # isinstance() check is the simplest I can do to ensure correct
             # behavior.
             out_old = self.out
-            self.out = StringIO.StringIO()
+            self.out = StringIO()
             string_output = 1
         elif out is not None:
             self.out = out
@@ -184,7 +187,7 @@ class Parser:
 
         # parse the source and write it
         self.pos = 0
-        text = StringIO.StringIO(self.raw)
+        text = StringIO(self.raw)
 
         error = False
         try:

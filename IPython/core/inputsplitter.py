@@ -70,7 +70,10 @@ import codeop
 import re
 import sys
 import tokenize
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 # IPython modules
 from IPython.core.splitinput import split_user_input, LineInfo

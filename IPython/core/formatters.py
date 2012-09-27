@@ -23,7 +23,10 @@ Authors:
 import abc
 import sys
 # We must use StringIO, as cStringIO doesn't handle unicode properly.
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 # Our own imports
 from IPython.config.configurable import Configurable

@@ -35,7 +35,10 @@ import traceback
 import unittest
 
 from inspect import getmodule
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 # We are overriding the default doctest runner, so we need to import a few
 # things from doctest directly
