@@ -3021,9 +3021,7 @@ class InteractiveShell(SingletonConfigurable):
     def cleanup(self):
         self.restore_sys_module_state()
 
-
-class InteractiveShellABC(object):
-    """An abstract base class for InteractiveShell."""
-    __metaclass__ = abc.ABCMeta
+InteractiveShellABC = abc.ABCMeta('InteractiveShellABC', (object,), {})
+InteractiveShellABC.__doc__ = """An abstract base class for InteractiveShell."""
 
 InteractiveShellABC.register(InteractiveShell)

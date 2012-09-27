@@ -144,8 +144,9 @@ class DisplayFormatter(Configurable):
 # Formatters for specific format types (text, html, svg, etc.)
 #-----------------------------------------------------------------------------
 
+_FormatterABC = abc.ABCMeta("_FormatterABC", (object,), {})
 
-class FormatterABC(object):
+class FormatterABC(_FormatterABC):
     """ Abstract base class for Formatters.
 
     A formatter is a callable class that is responsible for computing the
@@ -153,7 +154,6 @@ class FormatterABC(object):
     an HTML formatter would have a format type of `text/html` and would return
     the HTML representation of the object when called.
     """
-    __metaclass__ = abc.ABCMeta
 
     # The format type of the data returned, usually a MIME type.
     format_type = 'text/plain'
