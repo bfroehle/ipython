@@ -62,6 +62,10 @@ except:
 from .importstring import import_item
 from IPython.utils import py3compat
 
+try:
+    StringTypes = (basestring,)
+except NameError:
+    StringTypes = (str,)
 SequenceTypes = (list, tuple, set, frozenset)
 
 #-----------------------------------------------------------------------------
@@ -89,7 +93,7 @@ def class_of ( object ):
     correct indefinite article ('a' or 'an') preceding it (e.g., 'an Image',
     'a PlotValue').
     """
-    if isinstance( object, basestring ):
+    if isinstance( object, StringTypes ):
         return add_article( object )
 
     return add_article( object.__class__.__name__ )
@@ -675,7 +679,7 @@ class Type(ClassBasedTraitType):
         elif klass is None:
             klass = default_value
 
-        if not (inspect.isclass(klass) or isinstance(klass, basestring)):
+        if not (inspect.isclass(klass) or isinstance(klass, StringTypes)):
             raise TraitError("A Type trait must specify a class.")
 
         self.klass       = klass
@@ -696,7 +700,7 @@ class Type(ClassBasedTraitType):
 
     def info(self):
         """ Returns a description of the trait."""
-        if isinstance(self.klass, basestring):
+        if isinstance(self.klass, StringTypes):
             klass = self.klass
         else:
             klass = self.klass.__name__
@@ -710,9 +714,9 @@ class Type(ClassBasedTraitType):
         super(Type, self).instance_init(obj)
 
     def _resolve_classes(self):
-        if isinstance(self.klass, basestring):
+        if isinstance(self.klass, StringTypes):
             self.klass = import_item(self.klass)
-        if isinstance(self.default_value, basestring):
+        if isinstance(self.default_value, StringTypes):
             self.default_value = import_item(self.default_value)
 
     def get_default_value(self):
@@ -767,7 +771,7 @@ class Instance(ClassBasedTraitType):
 
         self._allow_none = allow_none
 
-        if (klass is None) or (not (inspect.isclass(klass) or isinstance(klass, basestring))):
+        if (klass is None) or (not (inspect.isclass(klass) or isinstance(klass, StringTypes))):
             raise TraitError('The klass argument must be a class'
                                 ' you gave: %r' % klass)
         self.klass = klass
@@ -804,7 +808,7 @@ class Instance(ClassBasedTraitType):
             self.error(obj, value)
 
     def info(self):
-        if isinstance(self.klass, basestring):
+        if isinstance(self.klass, StringTypes):
             klass = self.klass
         else:
             klass = self.klass.__name__
@@ -819,7 +823,7 @@ class Instance(ClassBasedTraitType):
         super(Instance, self).instance_init(obj)
 
     def _resolve_classes(self):
-        if isinstance(self.klass, basestring):
+        if isinstance(self.klass, StringTypes):
             self.klass = import_item(self.klass)
 
     def get_default_value(self):
@@ -896,7 +900,7 @@ else:
     class Long(TraitType):
         """A long integer trait."""
 
-        default_value = 0L
+        default_value = long(0)
         info_text = 'a long'
 
         def validate(self, obj, value):
@@ -1122,7 +1126,7 @@ class CaselessStrEnum(Enum):
             if self._allow_none:
                 return value
 
-        if not isinstance(value, basestring):
+        if not isinstance(value, StringTypes):
             self.error(obj, value)
 
         for v in self.values:
@@ -1225,7 +1229,7 @@ class List(Container):
     """An instance of a Python list."""
     klass = list
 
-    def __init__(self, trait=None, default_value=None, minlen=0, maxlen=sys.maxint,
+    def __init__(self, trait=None, default_value=None, minlen=0, maxlen=sys.maxsize,
                 allow_none=True, **metadata):
         """Create a List trait type from a list, set, or tuple.
 
@@ -1409,7 +1413,7 @@ class TCPAddress(TraitType):
     def validate(self, obj, value):
         if isinstance(value, tuple):
             if len(value) == 2:
-                if isinstance(value[0], basestring) and isinstance(value[1], int):
+                if isinstance(value[0], StringTypes) and isinstance(value[1], int):
                     port = value[1]
                     if port >= 0 and port <= 65535:
                         return value
