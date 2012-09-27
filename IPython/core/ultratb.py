@@ -105,6 +105,7 @@ from IPython.utils import pyfile
 from IPython.utils import ulinecache
 from IPython.utils.data import uniq_stable
 from IPython.utils.openpy import read_py_file
+from IPython.utils.py3compat import _func_code
 from IPython.utils.warn import info, error
 
 # Globals
@@ -188,7 +189,7 @@ def findsource(object):
     if ismethod(object):
         object = object.im_func
     if isfunction(object):
-        object = object.func_code
+        object = getattr(object, _func_code)
     if istraceback(object):
         object = object.tb_frame
     if isframe(object):

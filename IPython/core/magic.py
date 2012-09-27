@@ -29,6 +29,7 @@ from IPython.core.inputsplitter import ESC_MAGIC, ESC_MAGIC2
 from IPython.external.decorator import decorator
 from IPython.utils.ipstruct import Struct
 from IPython.utils.process import arg_split
+from IPython.utils.py3compat import _func_name
 from IPython.utils.text import dedent
 from IPython.utils.traitlets import Bool, Dict, Instance, MetaHasTraits
 from IPython.utils.warn import error, warn
@@ -193,14 +194,14 @@ def _method_magic_marker(magic_kind):
         if callable(arg):
             # "Naked" decorator call (just @foo, no args)
             func = arg
-            name = func.func_name
+            name = getattr(func, _func_name)
             retval = decorator(call, func)
             record_magic(magics, magic_kind, name, name)
         elif isinstance(arg, basestring):
             # Decorator called with arguments (@foo('bar'))
             name = arg
             def mark(func, *a, **kw):
-                record_magic(magics, magic_kind, name, func.func_name)
+                record_magic(magics, magic_kind, name, getattr(func, _func_name))
                 return decorator(call, func)
             retval = mark
         else:
@@ -238,7 +239,7 @@ def _function_magic_marker(magic_kind):
         if callable(arg):
             # "Naked" decorator call (just @foo, no args)
             func = arg
-            name = func.func_name
+            name = getattr(func, _func_name)
             ip.register_magic_function(func, magic_kind, name)
             retval = decorator(call, func)
         elif isinstance(arg, basestring):
@@ -431,7 +432,7 @@ class MagicsManager(Configurable):
         # Create the new method in the user_magics and register it in the
         # global table
         validate_type(magic_kind)
-        magic_name = func.func_name if magic_name is None else magic_name
+        magic_name = getattr(func, _func_name) if magic_name is None else magic_name
         setattr(self.user_magics, magic_name, func)
         record_magic(self.magics, magic_kind, magic_name, func)
 

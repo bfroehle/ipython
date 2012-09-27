@@ -28,6 +28,8 @@ Authors
 - Fernando Perez.
 """
 
+from IPython.utils.py3compat import _func_name
+
 #-----------------------------------------------------------------------------
 # Classes and Functions
 #-----------------------------------------------------------------------------
@@ -117,7 +119,7 @@ class OneTimeProperty(object):
             the value of this computation.
             """
        self.getter = func
-       self.name = func.func_name
+       self.name = getattr(func, _func_name)
 
    def __get__(self,obj,type=None):
        """This will be called on attribute access on the class or instance. """

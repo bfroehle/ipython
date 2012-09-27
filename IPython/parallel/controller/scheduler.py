@@ -42,7 +42,7 @@ from IPython.external.decorator import decorator
 from IPython.config.application import Application
 from IPython.config.loader import Config
 from IPython.utils.traitlets import Instance, Dict, List, Set, Integer, Enum, CBytes
-from IPython.utils.py3compat import cast_bytes
+from IPython.utils.py3compat import cast_bytes, _func_name
 
 from IPython.parallel import error, util
 from IPython.parallel.factory import SessionFactory
@@ -53,7 +53,7 @@ from .dependency import Dependency
 @decorator
 def logged(f,self,*args,**kwargs):
     # print ("#--------------------")
-    self.log.debug("scheduler::%s(*%s,**%s)", f.func_name, args, kwargs)
+    self.log.debug("scheduler::%s(*%s,**%s)", getattr(f, _func_name), args, kwargs)
     # print ("#--")
     return f(self,*args, **kwargs)
 

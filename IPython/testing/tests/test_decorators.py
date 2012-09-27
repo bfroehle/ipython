@@ -14,6 +14,7 @@ import nose.tools as nt
 from IPython.testing import decorators as dec
 from IPython.testing.skipdoctest import skip_doctest
 from IPython.testing.ipunittest import ParametricTestCase
+from IPython.utils.py3compat import _func_code, _func_defaults
 
 #-----------------------------------------------------------------------------
 # Utilities
@@ -37,8 +38,8 @@ def getargspec(obj):
         func_obj = obj.im_func
     else:
         raise TypeError('arg is not a Python function')
-    args, varargs, varkw = inspect.getargs(func_obj.func_code)
-    return args, varargs, varkw, func_obj.func_defaults
+    args, varargs, varkw = inspect.getargs(getattr(func_obj, _func_code))
+    return args, varargs, varkw, getattr(func_obj, _func_defaults)
 
 #-----------------------------------------------------------------------------
 # Testing functions
