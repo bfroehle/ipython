@@ -15,7 +15,7 @@ ip = ipapi.get()
 
 import sys
 
-import ext_rescapture # var = !ls and var = %magic
+from . import ext_rescapture # var = !ls and var = %magic
 import pspersistence # %store magic
 import clearcmd # %clear
 

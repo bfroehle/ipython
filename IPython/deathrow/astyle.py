@@ -260,7 +260,7 @@ class Text(list):
 
 
 try:
-    import ipipe
+    from . import ipipe
 except ImportError:
     pass
 else:

@@ -77,7 +77,7 @@ if mswindows:
         # something else than cmd.
         skip = True
     else:
-        import winprocess
+        from . import winprocess
 else:
     import signal
 

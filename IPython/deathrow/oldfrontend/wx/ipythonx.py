@@ -12,7 +12,7 @@ You need wxPython to run this application.
 """ % e.args[0]
     raise e
 
-from wx_frontend import WxController
+from .wx_frontend import WxController
 import __builtin__
 
 

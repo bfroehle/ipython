@@ -4,7 +4,7 @@ import curses, fcntl, signal, struct, tty, textwrap, inspect
 
 from IPython.core import ipapi
 
-import astyle, ipipe
+from . import astyle, ipipe
 
 
 # Python 2.3 compatibility
@@ -18,7 +18,7 @@ except NameError:
 try:
     sorted
 except NameError:
-    from ipipe import sorted
+    from .ipipe import sorted
 
 
 class UnassignedKeyError(Exception):

@@ -14,7 +14,7 @@ import os,re,textwrap
 # The import below effectively obsoletes your old-style ipythonrc[.ini],
 # so consider yourself warned!
 
-import ipy_defaults
+from . import ipy_defaults
 
 def main():
     ip = ipapi.get()

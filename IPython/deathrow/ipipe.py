@@ -2150,7 +2150,7 @@ def xformat(value, mode, maxlength):
 
 
 
-import astyle
+from . import astyle
 
 class idump(Display):
     # The approximate maximum length of a column entry
@@ -2281,11 +2281,11 @@ class AttributeDetail(Table):
 
 
 try:
-    from ibrowse import ibrowse
+    from .ibrowse import ibrowse
 except ImportError:
     # No curses (probably Windows) => try igrid
     try:
-        from igrid import igrid
+        from .igrid import igrid
     except ImportError:
         # no wx either => use ``idump`` as the default display.
         defaultdisplay = idump
