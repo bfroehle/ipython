@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """ PickleShare - a small 'shelve' like datastore with concurrency support
 
 Like shelve, a PickleShareDB object acts like a normal dictionary. Unlike
@@ -32,6 +31,8 @@ Author: Ville Vainio <vivainio@gmail.com>
 License: MIT open source license.
 
 """
+
+from __future__ import print_function
 
 from IPython.external.path import path as Path
 import os,stat,time

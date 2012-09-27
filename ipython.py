@@ -19,6 +19,22 @@ sys.path.insert(0, this_dir)
 # Py3 compatibility hacks, without assuming IPython itself is installed with
 # the full py3compat machinery.
 
+# Egad!
+try:
+    os.getcwdu
+except AttributeError:
+    os.getcwdu = os.getcwd
+
+try:
+    import cPickle
+except:
+    import pickle
+    sys.modules['cPickle'] = pickle
+
+    import builtins
+    builtins.unicode = str
+    builtins.basestring = str
+
 try:
     execfile
 except NameError:

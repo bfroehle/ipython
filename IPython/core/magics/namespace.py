@@ -12,6 +12,8 @@
 # Imports
 #-----------------------------------------------------------------------------
 
+from __future__ import print_function
+
 # Stdlib
 import gc
 import re
