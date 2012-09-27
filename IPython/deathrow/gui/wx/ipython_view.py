@@ -47,7 +47,7 @@ for enc in (locale.getpreferredencoding(),
 else:
     ENCODING = 'utf-8'
 
-from ipshell_nonblocking import NonBlockingIPShell
+from .ipshell_nonblocking import NonBlockingIPShell
 
 class WxNonBlockingIPShell(NonBlockingIPShell):
     '''

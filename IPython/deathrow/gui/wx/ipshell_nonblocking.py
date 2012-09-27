@@ -21,7 +21,7 @@ import re
 import sys
 import os
 import locale
-from thread_ex import ThreadEx
+from .thread_ex import ThreadEx
 
 from IPython.core import iplib
 import IPython.utils.io

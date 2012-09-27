@@ -33,7 +33,7 @@ from wx import stc
 
 # Ipython-specific imports.
 from IPython.frontend.process import PipedProcess
-from console_widget import ConsoleWidget, _COMPLETE_BUFFER_MARKER, \
+from .console_widget import ConsoleWidget, _COMPLETE_BUFFER_MARKER, \
     _ERROR_MARKER, _INPUT_MARKER
 from IPython.frontend.prefilterfrontend import PrefilterFrontEnd
 

@@ -8,7 +8,7 @@ import wx.grid, wx.html
 try:
     sorted
 except NameError:
-    from ipipe import sorted
+    from .ipipe import sorted
 try:
     set
 except:

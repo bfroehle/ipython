@@ -206,7 +206,7 @@ if __name__ == '__main__':
 
     # Reset the threshold to the default, in case the test is running inside an
     # instance of ipython that changed it
-    import ipy_traits_completer
+    from . import ipy_traits_completer
     ipy_traits_completer.COMPLETE_THRESHOLD = 3
 
     assert ip.complete('t.ed') ==[]

@@ -7,7 +7,7 @@ convenience.
 """
 
 from IPython.core import ipapi
-import ipy_defaults
+from . import ipy_defaults
 
 def main():
     ip = ipapi.get()
