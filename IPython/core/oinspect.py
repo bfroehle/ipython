@@ -41,7 +41,7 @@ from IPython.utils import py3compat
 from IPython.utils.text import indent
 from IPython.utils.wildcard import list_namespace
 from IPython.utils.coloransi import *
-from IPython.utils.py3compat import cast_unicode
+from IPython.utils.py3compat import cast_unicode, _func_code, _func_defaults
 
 #****************************************************************************
 # Builtin color schemes
@@ -194,8 +194,8 @@ def getargspec(obj):
         func_obj = obj.__call__
     else:
         raise TypeError('arg is not a Python function')
-    args, varargs, varkw = inspect.getargs(func_obj.func_code)
-    return args, varargs, varkw, func_obj.func_defaults
+    args, varargs, varkw = inspect.getargs(getattr(func_obj, _func_code))
+    return args, varargs, varkw, getattr(func_obj, _func_defaults)
 
 
 def format_argspec(argspec):

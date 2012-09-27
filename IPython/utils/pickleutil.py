@@ -39,6 +39,8 @@ from IPython.config import Application
 if py3compat.PY3:
     buffer = memoryview
 
+from IPython.utils.py3compat import _func_code, _func_defaults
+
 #-------------------------------------------------------------------------------
 # Classes
 #-------------------------------------------------------------------------------
@@ -83,9 +85,9 @@ class CannedFunction(CannedObject):
 
     def __init__(self, f):
         self._check_type(f)
-        self.code = f.func_code
-        if f.func_defaults:
-            self.defaults = [ can(fd) for fd in f.func_defaults ]
+        self.code = getattr(f, _func_code)
+        if getattr(f, _func_defaults):
+            self.defaults = [ can(fd) for fd in getattr(f, _func_defaults) ]
         else:
             self.defaults = None
         self.module = f.__module__ or '__main__'

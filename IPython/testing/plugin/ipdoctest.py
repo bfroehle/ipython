@@ -56,6 +56,7 @@ from nose.util import anyp, getpackage, test_address, resolve_name, tolist
 # We're temporarily using TerminalMagics.cleanup_input() until the functionality
 # is moved into core.
 from IPython.frontend.terminal.interactiveshell import TerminalMagics
+from IPython.utils.py3compat import _func_globals
 
 #-----------------------------------------------------------------------------
 # Module globals and other constants
@@ -104,7 +105,7 @@ class DocTestFinder(doctest.DocTestFinder):
         if module is None:
             return True
         elif inspect.isfunction(object):
-            return module.__dict__ is object.func_globals
+            return module.__dict__ is getattr(object, _func_globals)
         elif inspect.isbuiltin(object):
             return module.__name__ == object.__module__
         elif inspect.isclass(object):

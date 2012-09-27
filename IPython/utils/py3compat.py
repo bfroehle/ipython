@@ -100,6 +100,11 @@ if sys.version_info[0] >= 3:
         Accepts a string or a function, so it can be used as a decorator."""
         return s.format(u='')
 
+    _func_name = "__name__"
+    _func_code = "__code__"
+    _func_defaults = "__defaults__"
+    _func_globals = "__globals__"
+
 else:
     PY3 = False
     
@@ -193,3 +198,8 @@ else:
             else:
                 filename = fname
             __builtin__.execfile(filename, *where)
+
+    _func_name = "func_name"
+    _func_code = "func_code"
+    _func_defaults = "func_defaults"
+    _func_globals = "func_globals"
