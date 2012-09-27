@@ -130,8 +130,8 @@ class TwistedInteractiveShell(InteractiveShell):
         received_ev.wait(5)
         if not received_ev.isSet():
             # the mainloop is dead, start executing code directly
-            print "Warning: Timeout for mainloop thread exceeded"
-            print "switching to nonthreaded mode (until mainloop wakes up again)"
+            print("Warning: Timeout for mainloop thread exceeded")
+            print("switching to nonthreaded mode (until mainloop wakes up again)")
             self.worker_ident = None
         else:
             completed_ev.wait()
@@ -148,11 +148,11 @@ class TwistedInteractiveShell(InteractiveShell):
         self.worker_ident = thread.get_ident()
 
         if self._kill:
-            print >>Term.cout, 'Closing threads...',
+            print('Closing threads...', end=' ', file=Term.cout)
             Term.cout.flush()
             for tokill in self.on_kill:
                 tokill()
-            print >>Term.cout, 'Done.'
+            print('Done.', file=Term.cout)
             # allow kill() to return
             self._kill.set()
             return True
@@ -189,7 +189,7 @@ class TwistedInteractiveShell(InteractiveShell):
                    shellglobals.CODE_RUN = True
                    InteractiveShell.runcode(self,code_to_run)
                 except KeyboardInterrupt:
-                   print "Keyboard interrupted in mainloop"
+                   print("Keyboard interrupted in mainloop")
                    while not self.code_queue.empty():
                       code = self.code_queue.get_nowait()
                    break
@@ -251,14 +251,14 @@ class IPShellTwisted:
 
     def mainloop(self):
         def mainLoopThreadDeath(r):
-            print "mainLoopThreadDeath: ", str(r)
+            print("mainLoopThreadDeath: ", str(r))
         def spawnMainloopThread():
             d=threads.deferToThread(self.run)
             d.addBoth(mainLoopThreadDeath)
         reactor.callWhenRunning(spawnMainloopThread)
         self.IP.reactor_started = True
         self.reactor.run()
-        print "mainloop ending...."
+        print("mainloop ending....")
 
 exists = True
 
@@ -283,5 +283,5 @@ if __name__ == '__main__':
     shell.mainloop()
 
     # You must exit IPython to terminate your program.
-    print 'Goodbye!'
+    print('Goodbye!')
 

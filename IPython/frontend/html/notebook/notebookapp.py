@@ -543,8 +543,8 @@ class NotebookApp(BaseIPythonApplication):
                 ioloop.IOLoop.instance().stop()
                 return
         else:
-            print "No answer for 5s:",
-        print "resuming operation..."
+            print("No answer for 5s:", end=' ')
+        print("resuming operation...")
         # no answer, or answer is no:
         # set it back to original SIGINT handler
         # use IOLoop.add_callback because signal.signal must be called

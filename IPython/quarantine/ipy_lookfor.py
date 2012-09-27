@@ -117,7 +117,7 @@ def lookfor(what, modules=None, import_modules=True, regenerate=False):
         pager = pydoc.getpager()
         pager("\n".join(help_text))
     else:
-        print "\n".join(help_text)
+        print("\n".join(help_text))
 
 def _lookfor_generate_cache(module, import_modules, regenerate):
     """
@@ -225,7 +225,7 @@ def lookfor_f(self, arg=''):
 def lookfor_modules_f(self, arg=''):
     global _lookfor_modules
     if not arg:
-        print "Modules included in %lookfor search:", _lookfor_modules
+        print("Modules included in %lookfor search:", _lookfor_modules)
     else:
         _lookfor_modules = arg.split()
 

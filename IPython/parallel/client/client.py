@@ -723,9 +723,9 @@ class Client(HasTraits):
         msg_id = parent['msg_id']
         if msg_id not in self.outstanding:
             if msg_id in self.history:
-                print ("got stale result: %s"%msg_id)
+                print(("got stale result: %s"%msg_id))
             else:
-                print ("got unknown result: %s"%msg_id)
+                print(("got unknown result: %s"%msg_id))
         else:
             self.outstanding.remove(msg_id)
 
@@ -759,11 +759,11 @@ class Client(HasTraits):
         msg_id = parent['msg_id']
         if msg_id not in self.outstanding:
             if msg_id in self.history:
-                print ("got stale result: %s"%msg_id)
-                print self.results[msg_id]
-                print msg
+                print(("got stale result: %s"%msg_id))
+                print(self.results[msg_id])
+                print(msg)
             else:
-                print ("got unknown result: %s"%msg_id)
+                print(("got unknown result: %s"%msg_id))
         else:
             self.outstanding.remove(msg_id)
         content = msg['content']

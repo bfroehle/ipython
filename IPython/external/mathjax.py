@@ -71,20 +71,20 @@ def install_mathjax(tag='v2.0', replace=False, dest=None):
         if replace:
             if not os.access(dest, os.W_OK):
                 raise IOError("Need have write access to %s" % dest)
-            print "removing previous MathJax install"
+            print("removing previous MathJax install")
             shutil.rmtree(dest)
         else:
-            print "offline MathJax apparently already installed"
+            print("offline MathJax apparently already installed")
             return
     
     # download mathjax
-    print "Downloading mathjax source from %s ..." % mathjax_url
+    print("Downloading mathjax source from %s ..." % mathjax_url)
     response = urllib2.urlopen(mathjax_url)
-    print "done"
+    print("done")
     # use 'r|gz' stream mode, because socket file-like objects can't seek:
     tar = tarfile.open(fileobj=response.fp, mode='r|gz')
     topdir = tar.firstmember.path
-    print "Extracting to %s" % dest
+    print("Extracting to %s" % dest)
     tar.extractall(static)
     # it will be mathjax-MathJax-<sha>, rename to just mathjax
     os.rename(os.path.join(static, topdir), dest)

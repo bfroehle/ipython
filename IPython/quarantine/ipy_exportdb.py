@@ -73,5 +73,5 @@ def export(filename = None):
     if filename:
         open(filename,'w').write(out)
     else:
-        print out
+        print(out)
     

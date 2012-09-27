@@ -62,23 +62,23 @@ def persist_env(self, parameter_s=''):
         env['add'] = [el for el in env['add'] if el[0] != k]
         env['pre'] = [el for el in env['pre'] if el[0] != k]
 
-        print "Forgot '%s' (for next session)" % k
+        print("Forgot '%s' (for next session)" % k)
 
     elif k.endswith('+'):
         k = k[:-1]
         env['add'].append((k,v))
         os.environ[k] += v
-        print k,"after append =",os.environ[k]
+        print(k,"after append =",os.environ[k])
     elif k.endswith('-'):
         k = k[:-1]
         env['pre'].append((k,v))
         os.environ[k] = v + os.environ.get(k,"")
-        print k,"after prepend =",os.environ[k]
+        print(k,"after prepend =",os.environ[k])
 
 
     else:
         env['set'][k] = v
-        print "Setting",k,"to",v
+        print("Setting",k,"to",v)
         os.environ[k] = v
 
     db['stored_env'] = env

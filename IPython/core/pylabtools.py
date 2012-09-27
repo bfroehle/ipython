@@ -22,6 +22,7 @@ Authors
 import sys
 from io import BytesIO
 
+from IPython.utils import py3compat
 from IPython.utils.decorators import flag_calls
 
 # If user specifies a GUI, that dictates the backend, otherwise we read the
@@ -71,7 +72,7 @@ def getfigs(*fig_nums):
         for num in fig_nums:
             f = Gcf.figs.get(num)
             if f is None:
-                print('Warning: figure %s not available.' % num)
+                print(('Warning: figure %s not available.' % num))
             else:
                 figs.append(f.canvas.figure)
         return figs
@@ -247,12 +248,12 @@ def import_pylab(user_ns, import_all=True):
           "np = numpy\n"
           "plt = pyplot\n"
           )
-    exec s in user_ns
+    py3compat.exec_(s, user_ns)
 
     if import_all:
         s = ("from matplotlib.pylab import *\n"
              "from numpy import *\n")
-        exec s in user_ns
+        py3compat.exec_(s, user_ns)
 
 
 def configure_inline_support(shell, backend, user_ns=None):
@@ -353,17 +354,17 @@ def pylab_activate(user_ns, gui=None, import_all=True, shell=None, welcome_messa
             shell.pylab_gui_select = gui
         # Otherwise if they are different
         elif gui != pylab_gui_select:
-            print ('Warning: Cannot change to a different GUI toolkit: %s.'
-                    ' Using %s instead.' % (gui, pylab_gui_select))
+            print(('Warning: Cannot change to a different GUI toolkit: %s.'
+                    ' Using %s instead.' % (gui, pylab_gui_select)))
             gui, backend = find_gui_and_backend(pylab_gui_select)
     activate_matplotlib(backend)
     import_pylab(user_ns, import_all)
     if shell is not None:
         configure_inline_support(shell, backend, user_ns)
     if welcome_message:
-        print """
+        print("""
 Welcome to pylab, a matplotlib-based Python environment [backend: %s].
-For more information, type 'help(pylab)'.""" % backend
+For more information, type 'help(pylab)'.""" % backend)
         # flush stdout, just to be safe
         sys.stdout.flush()
 

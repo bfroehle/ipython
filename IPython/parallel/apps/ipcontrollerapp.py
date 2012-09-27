@@ -44,6 +44,7 @@ from IPython.parallel.apps.baseapp import (
     base_flags,
     catch_config_error,
 )
+from IPython.utils import py3compat
 from IPython.utils.importstring import import_item
 from IPython.utils.traitlets import Instance, Unicode, Bool, List, Dict, TraitError
 
@@ -460,7 +461,7 @@ class IPControllerApp(BaseParallelApplication):
         for s in statements:
             try:
                 self.log.msg("Executing statement: '%s'" % s)
-                exec s in globals(), locals()
+                py3compat.exec_(s, globals(), locals())
             except:
                 self.log.msg("Error running statement: %s" % s)
 

@@ -47,6 +47,7 @@ from IPython.config.configurable import Configurable
 from IPython.parallel.engine.engine import EngineFactory
 from IPython.parallel.util import disambiguate_ip_address
 
+from IPython.utils import py3compat
 from IPython.utils.importstring import import_item
 from IPython.utils.py3compat import cast_bytes
 from IPython.utils.traitlets import Bool, Unicode, Dict, List, Float, Instance
@@ -365,7 +366,7 @@ class IPEngineApp(BaseParallelApplication):
             try:
                 self.log.info("Initializing MPI:")
                 self.log.info(mpi_import_statement)
-                exec mpi_import_statement in globals()
+                py3compat.exec_(mpi_import_statement, globals())
             except:
                 mpi = None
         else:

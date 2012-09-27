@@ -216,4 +216,4 @@ if __name__ == '__main__':
     # time...
     ta = ip.complete('t.edi')
     assert ta == ['t.edit_traits', 't.editable_traits']
-    print 'Tests OK'
+    print('Tests OK')

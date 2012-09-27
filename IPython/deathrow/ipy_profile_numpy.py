@@ -19,6 +19,6 @@ def main():
         ip.ex("from numpy import *")
 
     except ImportError:
-        print "Unable to start NumPy profile, is numpy installed?"
+        print("Unable to start NumPy profile, is numpy installed?")
     
 main()

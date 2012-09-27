@@ -24,6 +24,6 @@ def main():
         ip.ex("from scipy import *")
 
     except ImportError:
-        print "Unable to start scipy profile, are numpy and scipy installed?"
+        print("Unable to start scipy profile, are numpy and scipy installed?")
     
 main()

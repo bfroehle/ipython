@@ -727,7 +727,7 @@ class RSTHandler(AuthenticatedHandler):
             )
         except:
             raise web.HTTPError(400, u'Invalid RST')
-        print html
+        print(html)
         self.set_header('Content-Type', 'text/html')
         self.finish(html)
 

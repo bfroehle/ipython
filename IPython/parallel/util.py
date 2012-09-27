@@ -43,6 +43,7 @@ from IPython.external.decorator import decorator
 
 # IPython imports
 from IPython.config.application import Application
+from IPython.utils import py3compat
 from IPython.zmq.log import EnginePUBHandler
 from IPython.zmq.serialize import (
     unserialize_object, serialize_object, pack_apply_message, unpack_apply_message
@@ -236,7 +237,7 @@ def _push(**ns):
     try:
         for name, value in ns.iteritems():
             user_ns[tmp] = value
-            exec "%s = %s" % (name, tmp) in user_ns
+            py3compat.exec_("%s = %s" % (name, tmp), user_ns)
     finally:
         user_ns.pop(tmp, None)
 
@@ -251,7 +252,7 @@ def _pull(keys):
 @interactive
 def _execute(code):
     """helper method for implementing `client.execute` via `client.apply`"""
-    exec code in globals()
+    py3compat.exec_(code, globals())
 
 #--------------------------------------------------------------------------
 # extra process management utilities

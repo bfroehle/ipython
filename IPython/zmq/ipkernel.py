@@ -570,7 +570,7 @@ class Kernel(Configurable):
             working.update(ns)
             code = "%s = %s(*%s,**%s)" % (resultname, fname, argname, kwargname)
             try:
-                exec code in shell.user_global_ns, shell.user_ns
+                py3compat.exec_(code, shell.user_global_ns, shell.user_ns)
                 result = working.get(resultname)
             finally:
                 for key in ns.iterkeys():

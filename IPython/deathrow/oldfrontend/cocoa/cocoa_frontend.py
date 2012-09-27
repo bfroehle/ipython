@@ -293,7 +293,7 @@ class IPythonCocoaController(NSObject, AsyncFrontEndBase):
 
 
     def update_cell_prompt(self, result, blockID=None):
-        print self.blockRanges
+        print(self.blockRanges)
         if(isinstance(result, Failure)):
             prompt = self.input_prompt()
 
@@ -325,7 +325,7 @@ class IPythonCocoaController(NSObject, AsyncFrontEndBase):
 
 
     def render_error(self, failure):
-        print failure
+        print(failure)
         blockID = failure.blockID
         inputRange = self.blockRanges[blockID].inputRange
         self.insert_text('\n' +

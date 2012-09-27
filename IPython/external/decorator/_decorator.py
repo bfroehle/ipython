@@ -54,6 +54,8 @@ except ImportError: # for Python version < 2.5
 
 if sys.version >= '3':
     from inspect import getfullargspec
+    import builtins
+    exec_ = getattr(builtins, "exec")
 else:
     class getfullargspec(object):
         "A quick and dirty replacement for getfullargspec for Python 2.X"
@@ -67,6 +69,18 @@ else:
             yield self.varargs
             yield self.varkw
             yield self.defaults
+    def exec_(code, globs=None, locs=None):
+        """Execute code in a namespace."""
+        if globs is None:
+            frame = sys._getframe(1)
+            globs = frame.f_globals
+            if locs is None:
+                locs = frame.f_locals
+            del frame
+        elif locs is None:
+            locs = globs
+        exec("""exec code in globs, locs""")
+
 
 DEF = re.compile('\s*def\s*([_\w][_\w\d]*)\s*\(')
 
@@ -160,10 +174,10 @@ class FunctionMaker(object):
         try:
             code = compile(src, '<string>', 'single')
             # print >> sys.stderr, 'Compiling %s' % src
-            exec code in evaldict
+            exec(code, evaldict)
         except:
-            print >> sys.stderr, 'Error in generated code:'
-            print >> sys.stderr, src
+            print('Error in generated code:', file=sys.stderr)
+            print(src, file=sys.stderr)
             raise
         func = evaldict[name]
         if addsource:

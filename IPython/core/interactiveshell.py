@@ -501,7 +501,7 @@ class InteractiveShell(SingletonConfigurable):
 
     def _ipython_dir_changed(self, name, new):
         if not os.path.isdir(new):
-            os.makedirs(new, mode = 0777)
+            os.makedirs(new, mode = 0o777)
 
     def set_autoindent(self,value=None):
         """Set the autoindent flag, checking for readline support.
@@ -2405,7 +2405,7 @@ class InteractiveShell(SingletonConfigurable):
     def ex(self, cmd):
         """Execute a normal python statement in user namespace."""
         with self.builtin_trap:
-            exec cmd in self.user_global_ns, self.user_ns
+            py3compat.exec_(cmd, self.user_global_ns, self.user_ns)
 
     def ev(self, expr):
         """Evaluate python expression expr in user namespace.
@@ -2756,7 +2756,7 @@ class InteractiveShell(SingletonConfigurable):
             try:
                 self.hooks.pre_run_code_hook()
                 #rprint('Running code', repr(code_obj)) # dbg
-                exec code_obj in self.user_global_ns, self.user_ns
+                py3compat.exec_(code_obj, self.user_global_ns, self.user_ns)
             finally:
                 # Reset our crash handler in place
                 sys.excepthook = old_excepthook

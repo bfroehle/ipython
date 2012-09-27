@@ -25,6 +25,7 @@ import IPython.testing.tools as tt
 
 from IPython.extensions.autoreload import AutoreloadPlugin
 from IPython.core.hooks import TryNext
+from IPython.utils import py3compat
 
 #-----------------------------------------------------------------------------
 # Test fixture
@@ -44,7 +45,7 @@ class FakeShell(object):
             self.reloader.auto_magics.pre_run_code_hook(self)
         except TryNext:
             pass
-        exec code in self.ns
+        py3compat.exec_(code, self.ns)
 
     def push(self, items):
         self.ns.update(items)
