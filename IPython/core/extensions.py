@@ -20,8 +20,13 @@ Authors:
 import os
 from shutil import copyfile
 import sys
-from urllib import urlretrieve
-from urlparse import urlparse
+
+if sys.version_info[0] >= 3:
+    from urllib.request import urlretrieve
+    from urllib.parse import urlparse
+else:
+    from urllib import urlretrieve
+    from urlparse import urlparse
 
 from IPython.config.configurable import Configurable
 from IPython.utils.traitlets import Instance
