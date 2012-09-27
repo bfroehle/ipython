@@ -36,7 +36,7 @@ class _FakeInput(object):
 
     def readline(self):
         line = next(self.lines)
-        print line
+        print(line)
         return line+'\n'
 
 class PdbTestInput(object):

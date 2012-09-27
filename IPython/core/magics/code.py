@@ -88,15 +88,15 @@ class CodeMagics(Magics):
             try:
                 overwrite = self.shell.ask_yes_no('File `%s` exists. Overwrite (y/[N])? ' % fname, default='n')
             except StdinNotImplementedError:
-                print "File `%s` exists. Use `%%save -f %s` to force overwrite" % (fname, parameter_s)
+                print("File `%s` exists. Use `%%save -f %s` to force overwrite" % (fname, parameter_s))
                 return
             if not overwrite :
-                print 'Operation cancelled.'
+                print('Operation cancelled.')
                 return
         try:
             cmds = self.shell.find_user_code(codefrom,raw)
         except (TypeError, ValueError) as e:
-            print e.args[0]
+            print(e.args[0])
             return
         out = py3compat.cast_unicode(cmds)
         with io.open(fname, mode, encoding="utf-8") as f:
@@ -106,8 +106,8 @@ class CodeMagics(Magics):
             # make sure we end on a newline
             if not out.endswith(u'\n'):
                 f.write(u'\n')
-        print 'The following commands were written to file `%s`:' % fname
-        print cmds
+        print('The following commands were written to file `%s`:' % fname)
+        print(cmds)
 
     @line_magic
     def pastebin(self, parameter_s=''):
@@ -129,7 +129,7 @@ class CodeMagics(Magics):
         try:
             code = self.shell.find_user_code(args)
         except (ValueError, TypeError) as e:
-            print e.args[0]
+            print(e.args[0])
             return
 
         post_data = json.dumps({
@@ -198,7 +198,7 @@ class CodeMagics(Magics):
                 ans = True
 
             if ans is False :
-                print 'Operation cancelled.'
+                print('Operation cancelled.')
                 return
 
         self.shell.set_next_input(contents)
@@ -323,7 +323,7 @@ class CodeMagics(Magics):
 
         if use_temp:
             filename = shell.mktempfile(data)
-            print 'IPython will make a temporary file named:',filename
+            print('IPython will make a temporary file named:',filename)
 
         return filename, lineno, use_temp
 
@@ -493,7 +493,7 @@ class CodeMagics(Magics):
             return
 
         # do actual editing here
-        print 'Editing...',
+        print('Editing...', end=' ')
         sys.stdout.flush()
         try:
             # Quote filenames that may have spaces in them
@@ -510,9 +510,9 @@ class CodeMagics(Magics):
             self.shell.user_ns['pasted_block'] = file_read(filename)
 
         if 'x' in opts:  # -x prevents actual execution
-            print
+            print()
         else:
-            print 'done. Executing edited code...'
+            print('done. Executing edited code...')
             if 'r' in opts:    # Untranslated IPython code
                 self.shell.run_cell(file_read(filename),
                                                     store_history=False)

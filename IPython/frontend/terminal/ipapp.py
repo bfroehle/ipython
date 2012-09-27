@@ -196,7 +196,7 @@ class LocateIPythonApp(BaseIPythonApplication):
         if self.subapp is not None:
             return self.subapp.start()
         else:
-            print self.ipython_dir
+            print(self.ipython_dir)
 
 
 class TerminalIPythonApp(BaseIPythonApplication, InteractiveShellApp):
@@ -345,7 +345,7 @@ class TerminalIPythonApp(BaseIPythonApplication, InteractiveShellApp):
         if self.display_banner and self.interact:
             self.shell.show_banner()
         # Make sure there is a space below the banner.
-        if self.log_level <= logging.INFO: print
+        if self.log_level <= logging.INFO: print()
 
     def _pylab_changed(self, name, old, new):
         """Replace --pylab='inline' with --pylab='auto'"""

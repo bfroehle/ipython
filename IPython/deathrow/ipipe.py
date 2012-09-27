@@ -2041,7 +2041,7 @@ class iless(Display):
             finally:
                 pager.close()
         except Exception as exc:
-            print "%s: %s" % (exc.__class__.__name__, str(exc))
+            print("%s: %s" % (exc.__class__.__name__, str(exc)))
 
 
 class _RedirectIO(object):

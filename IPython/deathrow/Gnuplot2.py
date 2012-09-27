@@ -125,7 +125,7 @@ def eps_fix_bbox(fname):
 
     # note: ps2ps and eps2eps do NOT work, ONLY ps2eps works correctly. The
     # others make output with bitmapped fonts, which looks horrible.
-    print 'Fixing eps file: <%s>' % fname
+    print('Fixing eps file: <%s>' % fname)
     xsys('ps2eps -f -q -l %s' % fname)
     if fname.endswith('.eps'):
         os.rename(fname+'.eps',fname)
@@ -646,8 +646,8 @@ class Gnuplot(Gnuplot_ori.Gnuplot):
                 time.sleep(0.05)  # safety, very small delay
                 if os.path.isfile(filename):
                     if debug:
-                        print 'Hardcopy to file <%s> success at attempt #%s.' \
-                        % (filename,i+1)
+                        print('Hardcopy to file <%s> success at attempt #%s.' \
+                        % (filename,i+1))
                     break
                 time.sleep(delay)
                 # try again, issue all commands just in case
@@ -655,8 +655,8 @@ class Gnuplot(Gnuplot_ori.Gnuplot):
                 self.set_string('output', filename)
                 self.refresh()
             if not os.path.isfile(filename):
-                print >> sys.stderr,'ERROR: Tried %s times and failed to '\
-                'create hardcopy file `%s`' % (maxtries,filename)
+                print('ERROR: Tried %s times and failed to '\
+                'create hardcopy file `%s`' % (maxtries,filename), file=sys.stderr)
 
         # reset the terminal to its `default' setting:
         self('set terminal %s' % gp.GnuplotOpts.default_term)

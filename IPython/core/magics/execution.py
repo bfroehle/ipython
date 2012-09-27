@@ -238,22 +238,22 @@ python-profiler package from non-free.""")
 
         if 'q' not in opts:
             page.page(output)
-        print sys_exit,
+        print(sys_exit, end=' ')
 
         dump_file = opts.D[0]
         text_file = opts.T[0]
         if dump_file:
             dump_file = unquote_filename(dump_file)
             prof.dump_stats(dump_file)
-            print '\n*** Profile stats marshalled to file',\
-                  repr(dump_file)+'.',sys_exit
+            print('\n*** Profile stats marshalled to file',\
+                  repr(dump_file)+'.',sys_exit)
         if text_file:
             text_file = unquote_filename(text_file)
             pfile = open(text_file,'w')
             pfile.write(output)
             pfile.close()
-            print '\n*** Profile printout saved to text file',\
-                  repr(text_file)+'.',sys_exit
+            print('\n*** Profile printout saved to text file',\
+                  repr(text_file)+'.',sys_exit)
 
         if 'r' in opts:
             return stats
@@ -293,7 +293,7 @@ python-profiler package from non-free.""")
 
         # set on the shell
         self.shell.call_pdb = new_pdb
-        print 'Automatic pdb calling has been turned',on_off(new_pdb)
+        print('Automatic pdb calling has been turned',on_off(new_pdb))
 
     @line_magic
     def debug(self, parameter_s=''):
@@ -455,7 +455,7 @@ python-profiler package from non-free.""")
             filename = file_finder(arg_lst[0])
         except IndexError:
             warn('you must provide at least a filename.')
-            print '\n%run:\n', oinspect.getdoc(self.run)
+            print('\n%run:\n', oinspect.getdoc(self.run))
             return
         except IOError as e:
             try:
@@ -550,8 +550,8 @@ python-profiler package from non-free.""")
                         # if we find a good linenumber, set the breakpoint
                         deb.do_break('%s:%s' % (filename, bp))
                         # Start file run
-                        print "NOTE: Enter 'c' at the",
-                        print "%s prompt to start your script." % deb.prompt
+                        print("NOTE: Enter 'c' at the", end=' ')
+                        print("%s prompt to start your script." % deb.prompt)
                         ns = {'execfile': py3compat.execfile, 'prog_ns': prog_ns}
                         try:
                             #save filename so it can be used by methods on the deb object
@@ -586,9 +586,9 @@ python-profiler package from non-free.""")
                                 t1 = clock2()
                                 t_usr = t1[0] - t0[0]
                                 t_sys = t1[1] - t0[1]
-                                print "\nIPython CPU timings (estimated):"
-                                print "  User   : %10.2f s." % t_usr
-                                print "  System : %10.2f s." % t_sys
+                                print("\nIPython CPU timings (estimated):")
+                                print("  User   : %10.2f s." % t_usr)
+                                print("  System : %10.2f s." % t_sys)
                             else:
                                 runs = range(nruns)
                                 t0 = clock2()
@@ -598,13 +598,13 @@ python-profiler package from non-free.""")
                                 t1 = clock2()
                                 t_usr = t1[0] - t0[0]
                                 t_sys = t1[1] - t0[1]
-                                print "\nIPython CPU timings (estimated):"
-                                print "Total runs performed:", nruns
-                                print "  Times  : %10.2f    %10.2f" % ('Total', 'Per run')
-                                print "  User   : %10.2f s, %10.2f s." % (t_usr, t_usr / nruns)
-                                print "  System : %10.2f s, %10.2f s." % (t_sys, t_sys / nruns)
+                                print("\nIPython CPU timings (estimated):")
+                                print("Total runs performed:", nruns)
+                                print("  Times  : %10.2f    %10.2f" % ('Total', 'Per run'))
+                                print("  User   : %10.2f s, %10.2f s." % (t_usr, t_usr / nruns))
+                                print("  System : %10.2f s, %10.2f s." % (t_sys, t_sys / nruns))
                             twall1 = time.time()
-                            print "Wall time: %10.2f s." % (twall1 - twall0)
+                            print("Wall time: %10.2f s." % (twall1 - twall0))
 
                         else:
                             # regular execution
@@ -804,12 +804,12 @@ python-profiler package from non-free.""")
             order = 0
         else:
             order = 3
-        print u"%d loops, best of %d: %.*g %s per loop" % (number, repeat,
+        print(u"%d loops, best of %d: %.*g %s per loop" % (number, repeat,
                                                           precision,
                                                           best * scaling[order],
-                                                          units[order])
+                                                          units[order]))
         if tc > tc_min:
-            print "Compiler time: %.2f s" % tc
+            print("Compiler time: %.2f s" % tc)
 
     @skip_doctest
     @needs_local_scope
@@ -899,11 +899,11 @@ python-profiler package from non-free.""")
         cpu_user = end[0]-st[0]
         cpu_sys = end[1]-st[1]
         cpu_tot = cpu_user+cpu_sys
-        print "CPU times: user %.2f s, sys: %.2f s, total: %.2f s" % \
-              (cpu_user,cpu_sys,cpu_tot)
-        print "Wall time: %.2f s" % wall_time
+        print("CPU times: user %.2f s, sys: %.2f s, total: %.2f s" % \
+              (cpu_user,cpu_sys,cpu_tot))
+        print("Wall time: %.2f s" % wall_time)
         if tc > tc_min:
-            print "Compiler : %.2f s" % tc
+            print("Compiler : %.2f s" % tc)
         return out
 
     @skip_doctest
@@ -977,13 +977,13 @@ python-profiler package from non-free.""")
         try:
             lines = self.shell.find_user_code(codefrom, 'r' in opts)
         except (ValueError, TypeError) as e:
-            print e.args[0]
+            print(e.args[0])
             return
         macro = Macro(lines)
         self.shell.define_macro(name, macro)
-        print 'Macro `%s` created. To execute, type its name (without quotes).' % name
-        print '=== Macro contents: ==='
-        print macro,
+        print('Macro `%s` created. To execute, type its name (without quotes).' % name)
+        print('=== Macro contents: ===')
+        print(macro, end=' ')
     
     @magic_arguments.magic_arguments()
     @magic_arguments.argument('output', type=str, default='', nargs='?',

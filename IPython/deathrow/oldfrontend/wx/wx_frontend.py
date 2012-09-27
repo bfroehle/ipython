@@ -191,7 +191,7 @@ class WxController(ConsoleWidget, PrefilterFrontEnd):
         """ Analyse current and displays useful calltip for it.
         """
         if self.debug:
-            print >>sys.__stdout__, "do_calltip"
+            print("do_calltip", file=sys.__stdout__)
         separators =  re.compile('[\s\{\}\[\]\(\)\= ,:]')
         symbol = self.input_buffer
         symbol_string = separators.split(symbol)[-1]
@@ -221,7 +221,7 @@ class WxController(ConsoleWidget, PrefilterFrontEnd):
             true, open the menu.
         """
         if self.debug:
-            print >>sys.__stdout__, "_popup_completion"
+            print("_popup_completion", file=sys.__stdout__)
         line = self.input_buffer
         if (self.AutoCompActive() and line and not line[-1] == '.') \
                     or create==True:
@@ -230,7 +230,7 @@ class WxController(ConsoleWidget, PrefilterFrontEnd):
                 offset = len(self._get_completion_text(line))
                 self.pop_completion(completions, offset=offset)
                 if self.debug:
-                    print >>sys.__stdout__, completions
+                    print(completions, file=sys.__stdout__)
 
 
     def buffered_write(self, text):
@@ -394,12 +394,12 @@ class WxController(ConsoleWidget, PrefilterFrontEnd):
             # Capture Control-C
             if self._input_state == 'subprocess':
                 if self.debug:
-                    print >>sys.__stderr__, 'Killing running process'
+                    print('Killing running process', file=sys.__stderr__)
                 if hasattr(self._running_process, 'process'):
                     self._running_process.process.kill()
             elif self._input_state == 'buffering':
                 if self.debug:
-                    print >>sys.__stderr__, 'Raising KeyboardInterrupt'
+                    print('Raising KeyboardInterrupt', file=sys.__stderr__)
                 raise KeyboardInterrupt
                 # XXX: We need to make really sure we
                 # get back to a prompt.
@@ -523,7 +523,7 @@ class WxController(ConsoleWidget, PrefilterFrontEnd):
         current_line_num = self.LineFromPosition(self.GetCurrentPos())
         new_line_pos = (last_line_num - current_line_num)
         if self.debug:
-            print >>sys.__stdout__, repr(self.input_buffer)
+            print(repr(self.input_buffer), file=sys.__stdout__)
         self.write('\n', refresh=False)
         # Under windows scintilla seems to be doing funny
         # stuff to the line returns here, but the getter for

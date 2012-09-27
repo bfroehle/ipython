@@ -179,7 +179,7 @@ class NonBlockingIPShell(object):
 
         #we disable cpaste magic... until we found a way to use it properly.
         def bypass_magic(self, arg):
-            print '%this magic is currently disabled.'
+            print('%this magic is currently disabled.')
         ipython0.define_magic('cpaste', bypass_magic)
 
         import __builtin__
@@ -513,6 +513,6 @@ class NonBlockingIPShell(object):
         #we use print command because the shell command is called
         #inside IPython instance and thus is redirected to thread cout
         #"\x01\x1b[1;36m\x02" <-- add colour to the text...
-        print "\x01\x1b[1;36m\x02"+result
+        print("\x01\x1b[1;36m\x02"+result)
         stdout.close()
         stdin.close()

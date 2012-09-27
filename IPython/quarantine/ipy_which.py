@@ -27,18 +27,18 @@ def which_alias(fname):
         if not (al == fname or fnmatch(al, fname)):
             continue
         if callable(tgt):
-            print "Callable alias",tgt
+            print("Callable alias",tgt)
             d = tgt.__doc__
             if d:
-                print "Docstring:\n",d
+                print("Docstring:\n",d)
                 continue
         trg = tgt[1]
         
         trans = ip.expand_alias(trg)
         cmd = trans.split(None,1)[0]
-        print al,"->",trans
+        print(al,"->",trans)
         for realcmd in which(cmd):
-            print "  ==",realcmd
+            print("  ==",realcmd)
         
 def which_f(self, arg):
     r""" %which <cmd> => search PATH for files matching cmd. Also scans aliases.
@@ -70,7 +70,7 @@ def which_f(self, arg):
     which_alias(arg)
 
     for e in which(arg):
-        print e
+        print(e)
     
 ip.define_magic("which",which_f)        
         

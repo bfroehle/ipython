@@ -30,7 +30,7 @@ class IPythonRequestHandler(SocketServer.StreamRequestHandler):
 
 def serve(port = PORT):
     server = SocketServer.TCPServer(("", port), IPythonRequestHandler)
-    print "ipy_server on TCP port", port
+    print("ipy_server on TCP port", port)
     server.serve_forever()
 
 def serve_thread(port = PORT):

@@ -142,12 +142,12 @@ class MyFrame(wx.Frame):
                 elif key in options_history_panel.keys():
                     options_history_panel[key]['value'] = value
                 else:
-                    print >>sys.__stdout__,"Warning: key ",key,"not found in widget options. Check Options.conf"
+                    print("Warning: key ",key,"not found in widget options. Check Options.conf", file=sys.__stdout__)
             self.ipython_panel.reloadOptions(options_ipython_panel)
             self.history_panel.reloadOptions(options_history_panel)
 
         except IOError:
-            print >>sys.__stdout__,"Could not open Options.conf, defaulting to default values."
+            print("Could not open Options.conf, defaulting to default values.", file=sys.__stdout__)
 
 
     def createMenu(self):

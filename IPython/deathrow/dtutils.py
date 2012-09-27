@@ -93,7 +93,7 @@ def idoctest(ns=None,eraise=False):
     except EOFError:
         pass
     except KeyboardInterrupt:
-        print "KeyboardInterrupt - Discarding input."
+        print("KeyboardInterrupt - Discarding input.")
         run_test = False
     
     ip.reloadhist()

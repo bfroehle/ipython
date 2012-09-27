@@ -64,7 +64,7 @@ class Map:
         
         # Test for error conditions here
         if p<0 or p>=q:
-          print "No partition exists."
+          print("No partition exists.")
           return
           
         remainder = len(seq)%q
