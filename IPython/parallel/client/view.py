@@ -15,6 +15,11 @@ Authors:
 # Imports
 #-----------------------------------------------------------------------------
 
+try:
+    import __builtin__ as builtin_mod
+except ImportError:
+    # Py3k
+    import builtins as builtin_mod
 import imp
 import sys
 import warnings
@@ -424,8 +429,7 @@ class DirectView(View):
         importing recarray from numpy on engine(s)
 
         """
-        import __builtin__
-        local_import = __builtin__.__import__
+        local_import = builtin_mod.__import__
         modules = set()
         results = []
         @util.interactive
@@ -447,8 +451,8 @@ class DirectView(View):
             locally as well.
             """
             # don't override nested imports
-            save_import = __builtin__.__import__
-            __builtin__.__import__ = local_import
+            save_import = builtin_mod.__import__
+            builtin_mod.__import__ = local_import
 
             if imp.lock_held():
                 # this is a side-effect import, don't do it remotely, or even
@@ -472,12 +476,12 @@ class DirectView(View):
                         print "importing %s on engine(s)"%name
                 results.append(self.apply_async(remote_import, name, fromlist, level))
             # restore override
-            __builtin__.__import__ = save_import
+            builtin_mod.__import__ = save_import
 
             return mod
 
         # override __import__
-        __builtin__.__import__ = view_import
+        builtin_mod.__import__ = view_import
         try:
             # enter the block
             yield
@@ -489,7 +493,7 @@ class DirectView(View):
                 pass
         finally:
             # always restore __import__
-            __builtin__.__import__ = local_import
+            builtin_mod.__import__ = local_import
 
         for r in results:
             # raise possible remote ImportErrors here

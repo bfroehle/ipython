@@ -24,7 +24,6 @@ Authors:
 # Imports
 #-----------------------------------------------------------------------------
 
-import __builtin__
 import codeop
 import re
 

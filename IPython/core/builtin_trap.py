@@ -18,7 +18,11 @@ Authors:
 # Imports
 #-----------------------------------------------------------------------------
 
-import __builtin__
+try:
+    import __builtin__ as builtin_mod
+except ImportError:
+    # Py3k
+    import builtins as builtin_mod
 
 from IPython.config.configurable import Configurable
 
@@ -78,7 +82,7 @@ class BuiltinTrap(Configurable):
 
     def add_builtin(self, key, value):
         """Add a builtin and save the original."""
-        bdict = __builtin__.__dict__
+        bdict = builtin_mod.__dict__
         orig = bdict.get(key, BuiltinUndefined)
         if value is HideBuiltin:
             if orig is not BuiltinUndefined: #same as 'key in bdict'
@@ -91,12 +95,12 @@ class BuiltinTrap(Configurable):
     def remove_builtin(self, key, orig):
         """Remove an added builtin and re-set the original."""
         if orig is BuiltinUndefined:
-            del __builtin__.__dict__[key]
+            del builtin_mod.__dict__[key]
         else:
-            __builtin__.__dict__[key] = orig
+            builtin_mod.__dict__[key] = orig
 
     def activate(self):
-        """Store ipython references in the __builtin__ namespace."""
+        """Store ipython references in the builtin_mod namespace."""
 
         add_builtin = self.add_builtin
         for name, func in self.auto_builtins.iteritems():

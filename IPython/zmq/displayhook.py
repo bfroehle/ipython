@@ -1,4 +1,8 @@
-import __builtin__
+try:
+    import __builtin__ as builtin_mod
+except ImportError:
+    # Py3k
+    import builtins as builtin_mod
 import sys
 
 from IPython.core.displayhook import DisplayHook
@@ -20,7 +24,7 @@ class ZMQDisplayHook(object):
         if obj is None:
             return
 
-        __builtin__._ = obj
+        builtin_mod._ = obj
         sys.stdout.flush()
         sys.stderr.flush()
         msg = self.session.send(self.pub_socket, u'pyout', {u'data':repr(obj)},

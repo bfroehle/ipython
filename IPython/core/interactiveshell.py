@@ -18,7 +18,11 @@ from __future__ import with_statement
 from __future__ import absolute_import
 from __future__ import print_function
 
-import __builtin__ as builtin_mod
+try:
+    import __builtin__ as builtin_mod
+except ImportError:
+    # Py3k
+    import builtins as builtin_mod
 import __future__
 import abc
 import ast
@@ -1068,7 +1072,7 @@ class InteractiveShell(SingletonConfigurable):
         # We must ensure that __builtin__ (without the final 's') is always
         # available and pointing to the __builtin__ *module*.  For more details:
         # http://mail.python.org/pipermail/python-dev/2001-April/014068.html
-        user_module.__dict__.setdefault('__builtin__', builtin_mod)
+        user_module.__dict__.setdefault(builtin_mod.__name__, builtin_mod)
         user_module.__dict__.setdefault('__builtins__', builtin_mod)
         
         if user_ns is None:
@@ -1196,6 +1200,7 @@ class InteractiveShell(SingletonConfigurable):
             self.user_ns.clear()
         ns = self.user_global_ns
         drop_keys = set(ns.keys())
+        drop_keys.discard('builtins')
         drop_keys.discard('__builtin__')
         drop_keys.discard('__builtins__')
         drop_keys.discard('__name__')
@@ -1231,7 +1236,7 @@ class InteractiveShell(SingletonConfigurable):
             namespace. If False (default), find the variable in the user
             namespace, and delete references to it.
         """
-        if varname in ('__builtin__', '__builtins__'):
+        if varname in ('builtins', '__builtin__', '__builtins__'):
             raise ValueError("Refusing to delete %s" % varname)
 
         ns_refs = self.all_ns_refs

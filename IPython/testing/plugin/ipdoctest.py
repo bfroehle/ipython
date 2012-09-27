@@ -19,7 +19,11 @@ Limitations:
 # Module imports
 
 # From the standard library
-import __builtin__ as builtin_mod
+try:
+    import __builtin__ as builtin_mod
+except ImportError:
+    # Py3k
+    import builtins as builtin_mod
 import commands
 import doctest
 import inspect
@@ -283,7 +287,7 @@ class DocTestCase(doctests.DocTestCase):
             # We must remove the _ key in the namespace, so that Python's
             # doctest code sets it naturally
             _ip.user_ns.pop('_', None)
-            _ip.user_ns['__builtins__'] = builtin_mod
+            _ip.user_ns[builtin_mod.__name__] = builtin_mod
             self._dt_test.globs = _ip.user_ns
 
         super(DocTestCase, self).setUp()

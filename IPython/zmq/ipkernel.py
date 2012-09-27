@@ -16,7 +16,11 @@ Things to do:
 from __future__ import print_function
 
 # Standard library imports
-import __builtin__
+try:
+    import __builtin__ as builtin_mod
+except ImportError:
+    # Py3k
+    import builtins as builtin_mod
 import atexit
 import sys
 import time
@@ -349,9 +353,9 @@ class Kernel(Configurable):
             raw_input = lambda prompt='' : self._no_raw_input()
 
         if py3compat.PY3:
-            __builtin__.input = raw_input
+            builtin_mod.input = raw_input
         else:
-            __builtin__.raw_input = raw_input
+            builtin_mod.raw_input = raw_input
 
         # Set the parent message of the display hook and out streams.
         shell.displayhook.set_parent(parent)
@@ -756,7 +760,7 @@ class Kernel(Configurable):
         base_symbol_string = context[0]
         symbol = self.shell.user_ns.get(base_symbol_string, None)
         if symbol is None:
-            symbol = __builtin__.__dict__.get(base_symbol_string, None)
+            symbol = builtin_mod.__dict__.get(base_symbol_string, None)
         if symbol is None:
             return None, context
 
