@@ -50,7 +50,7 @@ class ZMQDataPublisher(Configurable):
             buffer_threshold=session.buffer_threshold,
             item_threshold=session.item_threshold,
         )
-        content = json_clean(dict(keys=data.keys()))
+        content = json_clean(dict(keys=list(data.keys())))
         session.send(self.pub_socket, 'data_message', content=content,
             parent=self.parent_header,
             buffers=buffers,

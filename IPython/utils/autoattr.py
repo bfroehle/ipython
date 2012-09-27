@@ -97,7 +97,7 @@ class ResetMixin(object):
       # point, it's as if they had never been computed.  On the next access,
       # the accessor function from the parent class will be called, simply
       # because that's how the python descriptor protocol works.
-      for mname, mval in classdict.items():
+      for mname, mval in list(classdict.items()):
          if mname in instdict and isinstance(mval, OneTimeProperty):
             delattr(self, mname)
 

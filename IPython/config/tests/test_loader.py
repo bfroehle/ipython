@@ -96,8 +96,8 @@ class TestArgParseCL(TestCase):
         self.assertEqual(config.n, True)
         self.assertEqual(config.Global.bam, 'wow')
         config = cl.load_config(['wow'])
-        self.assertEqual(config.keys(), ['Global'])
-        self.assertEqual(config.Global.keys(), ['bam'])
+        self.assertEqual(list(config.keys()), ['Global'])
+        self.assertEqual(list(config.Global.keys()), ['bam'])
         self.assertEqual(config.Global.bam, 'wow')
 
     def test_add_arguments(self):
@@ -216,7 +216,7 @@ class TestConfig(TestCase):
         self.assertEqual(c._has_section('A'), True)
         self.assertEqual(c.A.foo, 'hi there')
         del c.A
-        self.assertEqual(len(c.A.keys()),0)
+        self.assertEqual(len(list(c.A.keys())),0)
 
     def test_merge_doesnt_exist(self):
         c1 = Config()

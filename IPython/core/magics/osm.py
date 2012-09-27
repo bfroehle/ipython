@@ -648,7 +648,7 @@ class OSMagics(Magics):
         elif 'r' in opts:
             bkms = {}
         elif 'l' in opts:
-            bks = bkms.keys()
+            bks = list(bkms.keys())
             bks.sort()
             if bks:
                 size = max(map(len, bks))

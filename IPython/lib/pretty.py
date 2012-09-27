@@ -551,7 +551,7 @@ def _dict_pprinter_factory(start, end, basetype=None):
         if cycle:
             return p.text('{...}')
         p.begin_group(1, start)
-        keys = obj.keys()
+        keys = list(obj.keys())
         try:
             keys.sort()
         except Exception as e:

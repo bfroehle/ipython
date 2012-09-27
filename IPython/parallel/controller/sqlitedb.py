@@ -292,9 +292,9 @@ class SQLiteDB(BaseDB):
         if skeys:
             raise KeyError("Illegal testing key(s): %s"%skeys)
 
-        for name,sub_check in check.iteritems():
+        for name,sub_check in check.items():
             if isinstance(sub_check, dict):
-                for test,value in sub_check.iteritems():
+                for test,value in sub_check.items():
                     try:
                         op = operators[test]
                     except KeyError:

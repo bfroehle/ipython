@@ -73,7 +73,7 @@ class PygmentsBlockUserData(QtGui.QTextBlockUserData):
     syntax_stack = ('root',)
 
     def __init__(self, **kwds):
-        for key, value in kwds.iteritems():
+        for key, value in kwds.items():
             setattr(self, key, value)
         QtGui.QTextBlockUserData.__init__(self)
 
@@ -182,7 +182,7 @@ class PygmentsHighlighter(QtGui.QSyntaxHighlighter):
         """ Returns a QTextCharFormat for token by reading a Pygments style.
         """
         result = QtGui.QTextCharFormat()
-        for key, value in style.style_for_token(token).items():
+        for key, value in list(style.style_for_token(token).items()):
             if value:
                 if key == 'color':
                     result.setForeground(self._get_brush(value))

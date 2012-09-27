@@ -12,7 +12,7 @@ import os,sys
 def restore_env(self):
     ip = self.getapi()
     env = ip.db.get('stored_env', {'set' : {}, 'add' : [], 'pre' : []})
-    for k,v in env['set'].items():
+    for k,v in list(env['set'].items()):
         os.environ[k] = v
     for k,v in env['add']:
         os.environ[k] = os.environ.get(k,"") + v
@@ -85,7 +85,7 @@ def persist_env(self, parameter_s=''):
 
 def env_completer(self,event):
     """ Custom completer that lists all env vars """
-    return os.environ.keys()
+    return list(os.environ.keys())
 
 ip.define_magic('env', persist_env)
 ip.set_hook('complete_command',env_completer, str_key = '%env')

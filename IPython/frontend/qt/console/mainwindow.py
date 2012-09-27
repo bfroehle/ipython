@@ -608,7 +608,7 @@ class MainWindow(QtGui.QMainWindow):
         `listofmagic`is a repr() of list because it is fed with the result of
         a 'user_expression'
         """
-        for k,v in self._magic_menu_dict.items():
+        for k,v in list(self._magic_menu_dict.items()):
             v.clear()
         self.all_magic_menu.clear()
 

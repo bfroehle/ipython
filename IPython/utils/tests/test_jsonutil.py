@@ -71,7 +71,7 @@ def test_encode_images():
         'image/jpeg' : jpegdata,
     }
     encoded = encode_images(fmt)
-    for key, value in fmt.iteritems():
+    for key, value in fmt.items():
         # encoded has unicode, want bytes
         decoded = decodestring(encoded[key].encode('ascii'))
         yield nt.assert_equal(decoded, value)
@@ -79,11 +79,11 @@ def test_encode_images():
     yield nt.assert_equal(encoded, encoded2)
     
     b64_str = {}
-    for key, encoded in encoded.iteritems():
+    for key, encoded in encoded.items():
         b64_str[key] = unicode_to_str(encoded)
     encoded3 = encode_images(b64_str)
     yield nt.assert_equal(encoded3, b64_str)
-    for key, value in fmt.iteritems():
+    for key, value in fmt.items():
         # encoded3 has str, want bytes
         decoded = decodestring(str_to_bytes(encoded3[key]))
         yield nt.assert_equal(decoded, value)

@@ -73,7 +73,7 @@ class CanningTestCase(TestCase):
         self.assertEqual(firstMD, {})
         unSerialized = ns.UnSerializeIt(originalSer)
         secondObj = unSerialized.getObject()
-        for k, v in secondObj.iteritems():
+        for k, v in secondObj.items():
             self.assertEqual(obj[k], v)
         secondSer = ns.SerializeIt(ns.UnSerialized(secondObj))
         self.assertEqual(firstData, secondSer.getData())

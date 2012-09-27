@@ -198,7 +198,7 @@ class TestClient(ClusterTestCase):
         intkeys.remove('unassigned')
         self.assertEqual(sorted(intkeys), sorted(self.client.ids))
         unassigned = allqs.pop('unassigned')
-        for eid,qs in allqs.items():
+        for eid,qs in list(allqs.items()):
             self.assertTrue(isinstance(qs, dict))
             self.assertEqual(sorted(qs.keys()), ['completed', 'queue', 'tasks'])
 
@@ -250,13 +250,13 @@ class TestClient(ClusterTestCase):
         """ensure msg_id is always in db queries"""
         found = self.client.db_query({'msg_id': {'$ne' : ''}},keys=['submitted', 'completed'])
         for rec in found:
-            self.assertTrue('msg_id' in rec.keys())
+            self.assertTrue('msg_id' in list(rec.keys()))
         found = self.client.db_query({'msg_id': {'$ne' : ''}},keys=['submitted'])
         for rec in found:
-            self.assertTrue('msg_id' in rec.keys())
+            self.assertTrue('msg_id' in list(rec.keys()))
         found = self.client.db_query({'msg_id': {'$ne' : ''}},keys=['msg_id'])
         for rec in found:
-            self.assertTrue('msg_id' in rec.keys())
+            self.assertTrue('msg_id' in list(rec.keys()))
     
     def test_db_query_get_result(self):
         """pop in db_query shouldn't pop from result itself"""

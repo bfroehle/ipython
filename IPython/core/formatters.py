@@ -118,7 +118,7 @@ class DisplayFormatter(Configurable):
                 format_dict['text/plain'] = data
             return format_dict
 
-        for format_type, formatter in self.formatters.items():
+        for format_type, formatter in list(self.formatters.items()):
             if include is not None:
                 if format_type not in include:
                     continue
@@ -137,7 +137,7 @@ class DisplayFormatter(Configurable):
     @property
     def format_types(self):
         """Return the format types (MIME types) of the active formatters."""
-        return self.formatters.keys()
+        return list(self.formatters.keys())
 
 
 #-----------------------------------------------------------------------------

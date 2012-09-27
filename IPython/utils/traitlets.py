@@ -372,7 +372,7 @@ class MetaHasTraits(type):
         # print "MetaHasTraitlets (mcls, name): ", mcls, name
         # print "MetaHasTraitlets (bases): ", bases
         # print "MetaHasTraitlets (classdict): ", classdict
-        for k,v in classdict.iteritems():
+        for k,v in classdict.items():
             if isinstance(v, TraitType):
                 v.name = k
             elif inspect.isclass(v):
@@ -388,7 +388,7 @@ class MetaHasTraits(type):
         This sets the :attr:`this_class` attribute of each TraitType in the
         class dict to the newly created class ``cls``.
         """
-        for k, v in classdict.iteritems():
+        for k, v in classdict.items():
             if isinstance(v, TraitType):
                 v.this_class = cls
         super(MetaHasTraits, cls).__init__(name, bases, classdict)
@@ -428,7 +428,7 @@ class HasTraits(_HasTraits):
         # Allow trait values to be set using keyword arguments.
         # We need to use setattr for this to trigger validation and
         # notifications.
-        for key, value in kw.iteritems():
+        for key, value in kw.items():
             setattr(self, key, value)
 
     def _notify_trait(self, name, old_value, new_value):
@@ -534,7 +534,7 @@ class HasTraits(_HasTraits):
 
         This method is just like the :meth:`trait_names` method, but is unbound.
         """
-        return cls.class_traits(**metadata).keys()
+        return list(cls.class_traits(**metadata).keys())
 
     @classmethod
     def class_traits(cls, **metadata):
@@ -556,13 +556,13 @@ class HasTraits(_HasTraits):
         if len(metadata) == 0:
             return traits
 
-        for meta_name, meta_eval in metadata.items():
+        for meta_name, meta_eval in list(metadata.items()):
             if type(meta_eval) is not FunctionType:
                 metadata[meta_name] = _SimpleTest(meta_eval)
 
         result = {}
-        for name, trait in traits.items():
-            for meta_name, meta_eval in metadata.items():
+        for name, trait in list(traits.items()):
+            for meta_name, meta_eval in list(metadata.items()):
                 if not meta_eval(trait.get_metadata(meta_name)):
                     break
             else:
@@ -572,7 +572,7 @@ class HasTraits(_HasTraits):
 
     def trait_names(self, **metadata):
         """Get a list of all the names of this classes traits."""
-        return self.traits(**metadata).keys()
+        return list(self.traits(**metadata).keys())
 
     def traits(self, **metadata):
         """Get a list of all the traits of this class.
@@ -591,13 +591,13 @@ class HasTraits(_HasTraits):
         if len(metadata) == 0:
             return traits
 
-        for meta_name, meta_eval in metadata.items():
+        for meta_name, meta_eval in list(metadata.items()):
             if type(meta_eval) is not FunctionType:
                 metadata[meta_name] = _SimpleTest(meta_eval)
 
         result = {}
-        for name, trait in traits.items():
-            for meta_name, meta_eval in metadata.items():
+        for name, trait in list(traits.items()):
+            for meta_name, meta_eval in list(metadata.items()):
                 if not meta_eval(trait.get_metadata(meta_name)):
                     break
             else:

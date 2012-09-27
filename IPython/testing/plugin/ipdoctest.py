@@ -150,7 +150,7 @@ class DocTestFinder(doctest.DocTestFinder):
 
         # Look for tests in a module's contained objects.
         if inspect.ismodule(obj) and self._recurse:
-            for valname, val in obj.__dict__.items():
+            for valname, val in list(obj.__dict__.items()):
                 valname1 = '%s.%s' % (name, valname)
                 if ( (isroutine(val) or isclass(val))
                      and self._from_module(module, val) ):
@@ -161,7 +161,7 @@ class DocTestFinder(doctest.DocTestFinder):
         # Look for tests in a class's contained objects.
         if inspect.isclass(obj) and self._recurse:
             #print 'RECURSE into class:',obj  # dbg
-            for valname, val in obj.__dict__.items():
+            for valname, val in list(obj.__dict__.items()):
                 # Special handling for staticmethod/classmethod.
                 if isinstance(val, staticmethod):
                     val = getattr(obj, valname)

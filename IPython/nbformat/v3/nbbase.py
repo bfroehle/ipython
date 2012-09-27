@@ -41,7 +41,7 @@ class NotebookNode(Struct):
 def from_dict(d):
     if isinstance(d, dict):
         newd = NotebookNode()
-        for k,v in d.items():
+        for k,v in list(d.items()):
             newd[k] = from_dict(v)
         return newd
     elif isinstance(d, (tuple, list)):

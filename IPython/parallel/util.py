@@ -58,7 +58,7 @@ class Namespace(dict):
     
     def __getattr__(self, key):
         """getattr aliased to getitem"""
-        if key in self.iterkeys():
+        if key in iter(self.keys()):
             return self[key]
         else:
             raise NameError(key)
@@ -76,7 +76,7 @@ class ReverseDict(dict):
     def __init__(self, *args, **kwargs):
         dict.__init__(self, *args, **kwargs)
         self._reverse = dict()
-        for key, value in self.iteritems():
+        for key, value in self.items():
             self._reverse[value] = key
     
     def __getitem__(self, key):
@@ -167,7 +167,7 @@ def validate_url_container(container):
         url = container
         return validate_url(url)
     elif isinstance(container, dict):
-        container = container.itervalues()
+        container = iter(container.values())
     
     for element in container:
         validate_url_container(element)
@@ -235,7 +235,7 @@ def _push(**ns):
     while tmp in user_ns:
         tmp = tmp + '_'
     try:
-        for name, value in ns.iteritems():
+        for name, value in ns.items():
             user_ns[tmp] = value
             py3compat.exec_("%s = %s" % (name, tmp), user_ns)
     finally:

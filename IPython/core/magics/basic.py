@@ -87,7 +87,7 @@ class BasicMagics(Magics):
         args = magic_arguments.parse_argstring(self.alias_magic, line)
         shell = self.shell
         mman = self.shell.magics_manager
-        escs = ''.join(magic_escapes.values())
+        escs = ''.join(list(magic_escapes.values()))
 
         target = args.target.lstrip(escs)
         name = args.name.lstrip(escs)

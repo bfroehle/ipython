@@ -111,7 +111,7 @@ def multiple_replace(dict, text):
     # http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/81330
 
     # Create a regular expression  from the dictionary keys
-    regex = re.compile("(%s)" % "|".join(map(re.escape, dict.keys())))
+    regex = re.compile("(%s)" % "|".join(map(re.escape, list(dict.keys()))))
     # For each match, look-up corresponding value in dictionary
     return regex.sub(lambda mo: dict[mo.string[mo.start():mo.end()]], text)
 

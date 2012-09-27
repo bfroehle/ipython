@@ -228,7 +228,7 @@ def ask_yes_no(prompt,default=None):
 
     answers = {'y':True,'n':False,'yes':True,'no':False}
     ans = None
-    while ans not in answers.keys():
+    while ans not in list(answers.keys()):
         try:
             ans = raw_input(prompt+' ').lower()
             if not ans:  # response was an empty string
@@ -236,7 +236,7 @@ def ask_yes_no(prompt,default=None):
         except KeyboardInterrupt:
             pass
         except EOFError:
-            if default in answers.keys():
+            if default in list(answers.keys()):
                 ans = default
                 print()
             else:
@@ -267,7 +267,7 @@ class NLprinter:
         # into a recursive call for a nested list.
         start = kw['start']; del kw['start']
         stop = kw['stop']; del kw['stop']
-        if self.depth == 0 and 'header' in kw.keys():
+        if self.depth == 0 and 'header' in list(kw.keys()):
             print(kw['header'])
 
         for idx in range(start,stop):

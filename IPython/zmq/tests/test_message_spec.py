@@ -207,7 +207,7 @@ class DisplayData(Reference):
     metadata = Dict()
     data = Dict()
     def _data_changed(self, name, old, new):
-        for k,v in new.iteritems():
+        for k,v in new.items():
             nt.assert_true(mime_pat.match(k))
             nt.assert_true(isinstance(v, basestring), "expected string data, got %r" % v)
 
@@ -216,7 +216,7 @@ class PyOut(Reference):
     execution_count = Integer()
     data = Dict()
     def _data_changed(self, name, old, new):
-        for k,v in new.iteritems():
+        for k,v in new.items():
             nt.assert_true(mime_pat.match(k))
             nt.assert_true(isinstance(v, basestring), "expected string data, got %r" % v)
 

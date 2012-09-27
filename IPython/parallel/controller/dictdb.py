@@ -74,7 +74,7 @@ class CompositeFilter(object):
     def __init__(self, dikt):
         self.tests = []
         self.values = []
-        for key, value in dikt.iteritems():
+        for key, value in dikt.items():
             self.tests.append(filters[key])
             self.values.append(value)
 
@@ -130,7 +130,7 @@ class DictDB(BaseDB):
 
     def _match_one(self, rec, tests):
         """Check if a specific record matches tests."""
-        for key,test in tests.iteritems():
+        for key,test in tests.items():
             if not test(rec.get(key, None)):
                 return False
         return True
@@ -139,13 +139,13 @@ class DictDB(BaseDB):
         """Find all the matches for a check dict."""
         matches = []
         tests = {}
-        for k,v in check.iteritems():
+        for k,v in check.items():
             if isinstance(v, dict):
                 tests[k] = CompositeFilter(v)
             else:
                 tests[k] = lambda o: o==v
 
-        for rec in self._records.itervalues():
+        for rec in self._records.values():
             if self._match_one(rec, tests):
                 matches.append(copy(rec))
         return matches
@@ -265,7 +265,7 @@ class DictDB(BaseDB):
 
     def get_history(self):
         """get all msg_ids, ordered by time submitted."""
-        msg_ids = self._records.keys()
+        msg_ids = list(self._records.keys())
         return sorted(msg_ids, key=lambda m: self._records[m]['submitted'])
 
 

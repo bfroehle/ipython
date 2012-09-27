@@ -72,7 +72,7 @@ def validate_string_dict(dct):
     """Validate that the input is a dict with string keys and values.
 
     Raises ValueError if not."""
-    for k,v in dct.iteritems():
+    for k,v in dct.items():
         if not isinstance(k, basestring):
             raise ValueError('key %r in dict must be a string' % k)
         if not isinstance(v, basestring):

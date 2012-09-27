@@ -130,7 +130,7 @@ class AliasManager(Configurable):
 
     @property
     def aliases(self):
-        return [(item[0], item[1][1]) for item in self.alias_table.iteritems()]
+        return [(item[0], item[1][1]) for item in self.alias_table.items()]
 
     def exclude_aliases(self):
         # set of things NOT to alias (keywords, builtins and some magics)

@@ -829,7 +829,7 @@ def xrepr_dict(self, mode="default"):
         else:
             yield (astyle.style_default, "dictproxy((")
             end = "})"
-        for (i, (key, value)) in enumerate(self.iteritems()):
+        for (i, (key, value)) in enumerate(iter(self.items())):
             if i:
                 yield (astyle.style_default, ", ")
             for part in xrepr(key, "default"):
@@ -953,7 +953,7 @@ def xiter(item):
         if _isdict(item):
             def items(item):
                 fields = ("key", "value")
-                for (key, value) in item.iteritems():
+                for (key, value) in item.items():
                     yield Fields(fields, key=key, value=value)
             return items(item)
         elif isinstance(item, new.module):
@@ -1495,7 +1495,7 @@ class igrp(Table):
 class Fields(object):
     def __init__(self, fieldnames, **fields):
         self.__fieldnames = [upgradexattr(fieldname) for fieldname in fieldnames]
-        for (key, value) in fields.iteritems():
+        for (key, value) in fields.items():
             setattr(self, key, value)
 
     def __xattrs__(self, mode="default"):
@@ -1585,7 +1585,7 @@ class ienv(Table):
 
     def __iter__(self):
         fields = ("key", "value")
-        for (key, value) in os.environ.iteritems():
+        for (key, value) in os.environ.items():
             yield Fields(fields, key=key, value=value)
 
     def __xrepr__(self, mode="default"):
@@ -1644,7 +1644,7 @@ class ialias(Table):
     def __iter__(self):
         api = ipapi.get()
 
-        for (name, (args, command)) in api.alias_manager.alias_table.iteritems():
+        for (name, (args, command)) in api.alias_manager.alias_table.items():
             yield Alias(name, args, command)
 
 
@@ -1677,7 +1677,7 @@ class icsv(Pipe):
                     yield part
                 yield (astyle.style_default, " | ")
             yield (astyle.style_default, "%s(" % self.__class__.__name__)
-            for (i, (name, value)) in enumerate(self.csvargs.iteritems()):
+            for (i, (name, value)) in enumerate(iter(self.csvargs.items())):
                 if i:
                     yield (astyle.style_default, ", ")
                 yield (astyle.style_default, name)
@@ -1689,7 +1689,7 @@ class icsv(Pipe):
             yield (astyle.style_default, repr(self))
 
     def __repr__(self):
-        args = ", ".join(["%s=%r" % item for item in self.csvargs.iteritems()])
+        args = ", ".join(["%s=%r" % item for item in self.csvargs.items()])
         return "<%s.%s %s at 0x%x>" % \
         (self.__class__.__module__, self.__class__.__name__, args, id(self))
 
