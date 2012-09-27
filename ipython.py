@@ -16,8 +16,18 @@ import os, sys
 this_dir = os.path.dirname(sys.argv[0])
 sys.path.insert(0, this_dir)
 
+# Py3 compatibility hacks, without assuming IPython itself is installed with
+# the full py3compat machinery.
+
+try:
+    execfile
+except NameError:
+    def execfile(fname, globs, locs=None):
+        locs = locs or globs
+        exec(compile(open(fname).read(), fname, "exec"), globs, locs)
+
 # Now proceed with execution
 execfile(os.path.join(
     this_dir, 'IPython', 'scripts', 'ipython'
-))
+), globals())
 
