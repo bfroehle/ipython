@@ -105,6 +105,11 @@ if sys.version_info[0] >= 3:
     _func_defaults = "__defaults__"
     _func_globals = "__globals__"
 
+    def reraise(tp, value, tb=None):
+        if value.__traceback__ is not tb:
+            raise value.with_traceback(tb)
+        raise value
+
 else:
     PY3 = False
     
@@ -198,6 +203,10 @@ else:
             else:
                 filename = fname
             __builtin__.execfile(filename, *where)
+
+    exec_("""def reraise(tp, value, tb=None):
+        raise tp, value, tb
+        """)
 
     _func_name = "func_name"
     _func_code = "func_code"

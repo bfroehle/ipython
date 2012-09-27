@@ -7,6 +7,7 @@ but it's removed in Python 3.2."""
 import sys
 
 from contextlib import contextmanager
+from IPython.utils.py3compat import reraise
 
 @contextmanager
 def nested(*managers):
@@ -47,4 +48,4 @@ def nested(*managers):
             # Don't rely on sys.exc_info() still containing
             # the right information. Another exception may
             # have been raised and caught by an exit method
-            raise exc[0], exc[1], exc[2]
+            reraise(*exc)
