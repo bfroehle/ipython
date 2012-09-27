@@ -24,7 +24,11 @@ re-implementation of hierarchical module import.
 #  the file COPYING, distributed as part of this software.
 #*****************************************************************************
 
-import __builtin__
+try:
+    import __builtin__ as builtin_mod
+except ImportError:
+    # Py3k
+    import builtins as builtin_mod
 from contextlib import contextmanager
 import imp
 import sys
@@ -32,16 +36,16 @@ import sys
 from types import ModuleType
 from warnings import warn
 
-original_import = __builtin__.__import__
+original_import = builtin_mod.__import__
 
 @contextmanager
 def replace_import_hook(new_import):
-    saved_import = __builtin__.__import__
-    __builtin__.__import__ = new_import
+    saved_import = builtin_mod.__import__
+    builtin_mod.__import__ = new_import
     try:
         yield
     finally:
-        __builtin__.__import__ = saved_import
+        builtin_mod.__import__ = saved_import
 
 def get_parent(globals, level):
     """
@@ -312,12 +316,12 @@ def deep_reload_hook(m):
 
 # Save the original hooks
 try:
-    original_reload = __builtin__.reload
+    original_reload = builtin_mod.reload
 except AttributeError:
     original_reload = imp.reload    # Python 3
 
 # Replacement for reload()
-def reload(module, exclude=['sys', 'os.path', '__builtin__', '__main__']):
+def reload(module, exclude=['sys', 'os.path', '__builtin__', 'builtins', '__main__']):
     """Recursively reload all modules used in the given module.  Optionally
     takes a list of modules to exclude from reloading.  The default exclude
     list contains sys, __main__, and __builtin__, to prevent, e.g., resetting
@@ -335,4 +339,4 @@ def reload(module, exclude=['sys', 'os.path', '__builtin__', '__main__']):
 
 # Uncomment the following to automatically activate deep reloading whenever
 # this module is imported
-#__builtin__.reload = reload
+#builtin_mod.reload = reload

@@ -25,7 +25,7 @@ def test_deepreload_numpy():
     import numpy
     exclude = [
         # Standard exclusions:
-        'sys', 'os.path', '__builtin__', '__main__',
+        'sys', 'os.path', '__builtin__', 'builtins', '__main__',
         # Test-related exclusions:
         'unittest', 'UserDict',
         ]
