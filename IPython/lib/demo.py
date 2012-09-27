@@ -182,7 +182,7 @@ from IPython.utils.PyColorize import Parser
 from IPython.utils import io
 from IPython.utils.io import file_read, file_readlines
 from IPython.utils.text import marquee
-from IPython.utils import openpy
+from IPython.utils import openpy, py3compat
 __all__ = ['Demo','IPythonDemo','LineDemo','IPythonLineDemo','DemoError']
 
 class DemoError(Exception): pass
@@ -417,7 +417,7 @@ class Demo(object):
     def run_cell(self,source):
         """Execute a string with one or more lines of code"""
 
-        exec source in self.user_ns
+        py3compat.exec_(source, self.user_ns)
 
     def __call__(self,index=None):
         """run a block of the demo.

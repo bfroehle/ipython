@@ -52,7 +52,8 @@ def _modify_str_or_docstring(str_change_func):
 
 if sys.version_info[0] >= 3:
     PY3 = True
-    
+    import builtins
+
     input = input
     builtin_mod_name = "builtins"
     
@@ -70,11 +71,13 @@ if sys.version_info[0] >= 3:
     open = orig_open
     
     MethodType = types.MethodType
-    
+
+    exec_ = getattr(builtins, "exec")
+
     def execfile(fname, glob, loc=None):
         loc = loc if (loc is not None) else glob
         with open(fname, 'rb') as f:
-            exec compile(f.read(), fname, 'exec') in glob, loc
+            exec_(compile(f.read(), fname, 'exec'), glob, loc)
     
     # Refactor print statements in doctests.
     _print_statement_re = re.compile(r"\bprint (?P<expr>.*)$", re.MULTILINE)
@@ -140,7 +143,19 @@ else:
     
     def MethodType(func, instance):
         return types.MethodType(func, instance, type(instance))
-    
+
+    def exec_(code, globs=None, locs=None):
+        """Execute code in a namespace."""
+        if globs is None:
+            frame = sys._getframe(1)
+            globs = frame.f_globals
+            if locs is None:
+                locs = frame.f_locals
+            del frame
+        elif locs is None:
+            locs = globs
+        exec("""exec code in globs, locs""")
+
     # don't override system execfile on 2.x:
     execfile = execfile
     
@@ -169,7 +184,7 @@ else:
                 filename = unicode_to_str(fname)
             else:
                 filename = fname
-            exec compile(scripttext, filename, 'exec') in glob, loc
+            exec_(compile(scripttext, filename, 'exec'), glob, loc)
     else:
         def execfile(fname, *where):
             if isinstance(fname, unicode):

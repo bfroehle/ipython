@@ -18,6 +18,7 @@ import re
 # Our own packages
 from IPython.core.error import UsageError
 from IPython.core.magic import Magics, magics_class, line_magic
+from IPython.utils import py3compat
 from IPython.utils.warn import error
 
 #-----------------------------------------------------------------------------
@@ -137,7 +138,7 @@ class ConfigMagics(Magics):
         # leave quotes on args when splitting, because we want
         # unquoted args to eval in user_ns
         cfg = Config()
-        exec "cfg."+line in locals(), self.shell.user_ns
+        py3compat.exec_("cfg."+line, locals(), self.shell.user_ns)
 
         for configurable in configurables:
             try:

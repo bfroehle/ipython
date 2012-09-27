@@ -785,7 +785,7 @@ python-profiler package from non-free.""")
         tc = clock()-t0
 
         ns = {}
-        exec code in self.shell.user_ns, ns
+        py3compat.exec_(code, self.shell.user_ns, ns)
         timer.inner = ns["inner"]
 
         if number == 0:
@@ -890,7 +890,7 @@ python-profiler package from non-free.""")
             end = clock2()
         else:
             st = clock2()
-            exec code in glob, local_ns
+            py3compat.exec_(code, glob, local_ns)
             end = clock2()
             out = None
         wall_end = wtime()

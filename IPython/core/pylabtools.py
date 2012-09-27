@@ -22,6 +22,7 @@ Authors
 import sys
 from io import BytesIO
 
+from IPython.utils import py3compat
 from IPython.utils.decorators import flag_calls
 
 # If user specifies a GUI, that dictates the backend, otherwise we read the
@@ -247,12 +248,12 @@ def import_pylab(user_ns, import_all=True):
           "np = numpy\n"
           "plt = pyplot\n"
           )
-    exec s in user_ns
+    py3compat.exec_(s, user_ns)
 
     if import_all:
         s = ("from matplotlib.pylab import *\n"
              "from numpy import *\n")
-        exec s in user_ns
+        py3compat.exec_(s, user_ns)
 
 
 def configure_inline_support(shell, backend, user_ns=None):

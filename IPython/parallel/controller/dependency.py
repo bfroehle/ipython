@@ -80,7 +80,7 @@ def _require(*names):
         if name in user_ns:
             continue
         try:
-            exec 'import %s'%name in user_ns
+            py3compat.exec_('import %s' % name, user_ns)
         except ImportError:
             raise UnmetDependency(name)
     return True
