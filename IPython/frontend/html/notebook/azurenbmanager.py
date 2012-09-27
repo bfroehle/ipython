@@ -79,7 +79,7 @@ class AzureNotebookManager(NotebookManager):
 
         This version uses `self.mapping` as the authoritative notebook list.
         """
-        data = [dict(notebook_id=id,name=name) for id, name in self.mapping.items()]
+        data = [dict(notebook_id=id,name=name) for id, name in list(self.mapping.items())]
         data = sorted(data, key=lambda item: item['name'])
         return data
 

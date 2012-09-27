@@ -162,7 +162,7 @@ class View(HasTraits):
             safely edit after arrays and buffers during non-copying
             sends.
         """
-        for name, value in kwargs.iteritems():
+        for name, value in kwargs.items():
             if name not in self._flag_names:
                 raise KeyError("Invalid name: %r"%name)
             else:
@@ -593,7 +593,7 @@ class DirectView(View):
         """
 
         block = kwargs.pop('block', self.block)
-        for k in kwargs.keys():
+        for k in list(kwargs.keys()):
             if k not in ['block', 'track']:
                 raise TypeError("invalid keyword arg, %r"%k)
 

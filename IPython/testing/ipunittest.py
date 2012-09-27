@@ -56,7 +56,7 @@ def count_failures(runner):
 
     Code modeled after the summarize() method in doctest.
     """
-    return [TestResults(f, t) for f, t in runner._name2ft.values() if f > 0 ]
+    return [TestResults(f, t) for f, t in list(runner._name2ft.values()) if f > 0 ]
 
 
 class IPython2PythonConverter(object):

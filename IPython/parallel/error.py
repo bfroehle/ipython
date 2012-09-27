@@ -295,7 +295,7 @@ def collect_exceptions(rdict_or_list, method='unspecified'):
     Passthrough otherwise."""
     elist = []
     if isinstance(rdict_or_list, dict):
-        rlist = rdict_or_list.values()
+        rlist = list(rdict_or_list.values())
     else:
         rlist = rdict_or_list
     for r in rlist:

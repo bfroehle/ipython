@@ -327,7 +327,7 @@ class MagicsManager(Configurable):
     def lsmagic_info(self):
         magic_list = []
         for m_type in self.magics :
-            for m_name,mgc in self.magics[m_type].items():
+            for m_name,mgc in list(self.magics[m_type].items()):
                 try :
                     magic_list.append({'name':m_name,'type':m_type,'class':mgc.im_class.__name__})
                 except AttributeError :
@@ -355,7 +355,7 @@ class MagicsManager(Configurable):
         docs = {}
         for m_type in self.magics:
             m_docs = {}
-            for m_name, m_func in self.magics[m_type].iteritems():
+            for m_name, m_func in self.magics[m_type].items():
                 if m_func.__doc__:
                     if brief:
                         m_docs[m_name] = m_func.__doc__.split('\n', 1)[0]
@@ -531,7 +531,7 @@ class Magics(object):
         for mtype in magic_kinds:
             tab = self.magics[mtype] = {}
             cls_tab = class_magics[mtype]
-            for magic_name, meth_name in cls_tab.iteritems():
+            for magic_name, meth_name in cls_tab.items():
                 if isinstance(meth_name, basestring):
                     # it's a method name, grab it
                     tab[magic_name] = getattr(self, meth_name)

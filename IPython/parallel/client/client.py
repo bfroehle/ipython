@@ -193,21 +193,21 @@ class Metadata(dict):
 
     def __getattr__(self, key):
         """getattr aliased to getitem"""
-        if key in self.iterkeys():
+        if key in iter(self.keys()):
             return self[key]
         else:
             raise AttributeError(key)
 
     def __setattr__(self, key, value):
         """setattr aliased to setitem, with strict"""
-        if key in self.iterkeys():
+        if key in iter(self.keys()):
             self[key] = value
         else:
             raise AttributeError(key)
 
     def __setitem__(self, key, value):
         """strict static key enforcement"""
-        if key in self.iterkeys():
+        if key in iter(self.keys()):
             dict.__setitem__(self, key, value)
         else:
             raise KeyError(key)
@@ -519,7 +519,7 @@ class Client(HasTraits):
 
     def _update_engines(self, engines):
         """Update our engines dict and _ids from a dict of the form: {id:uuid}."""
-        for k,v in engines.iteritems():
+        for k,v in engines.items():
             eid = int(k)
             if eid not in self._engines:
                 self._ids.append(eid)
@@ -1239,7 +1239,7 @@ class Client(HasTraits):
             # possibly routed to a specific engine
             if isinstance(ident, list):
                 ident = ident[-1]
-            if ident in self._engines.values():
+            if ident in list(self._engines.values()):
                 # save for later, in case of engine death
                 self._outstanding_dict[ident].add(msg_id)
         self.history.append(msg_id)
@@ -1276,7 +1276,7 @@ class Client(HasTraits):
             # possibly routed to a specific engine
             if isinstance(ident, list):
                 ident = ident[-1]
-            if ident in self._engines.values():
+            if ident in list(self._engines.values()):
                 # save for later, in case of engine death
                 self._outstanding_dict[ident].add(msg_id)
         self.history.append(msg_id)

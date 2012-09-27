@@ -855,7 +855,7 @@ class Inspector:
         for name in ns_search:
             if name not in ns_table:
                 raise ValueError('invalid namespace <%s>. Valid names: %s' %
-                                 (name,ns_table.keys()))
+                                 (name,list(ns_table.keys())))
 
         #print 'type_pattern:',type_pattern # dbg
         search_result, namespaces_seen = set(), set()

@@ -35,7 +35,7 @@ class C(object):
     """dummy class for """
     
     def __init__(self, **kwargs):
-        for key,value in kwargs.iteritems():
+        for key,value in kwargs.items():
             setattr(self, key, value)
 
 SHAPES = ((100,), (1024,10), (10,8,6,5), (), (0,))
@@ -84,7 +84,7 @@ def _scrub_nan(A):
     """
     import numpy
     if A.dtype.fields and A.shape:
-        for field in A.dtype.fields.keys():
+        for field in list(A.dtype.fields.keys()):
             try:
                 A[field][numpy.isnan(A[field])] = 0
             except (TypeError, NotImplementedError):

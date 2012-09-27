@@ -319,9 +319,9 @@ class Completer(Configurable):
         match_append = matches.append
         n = len(text)
         for lst in [keyword.kwlist,
-                    builtin_mod.__dict__.keys(),
-                    self.namespace.keys(),
-                    self.global_namespace.keys()]:
+                    list(builtin_mod.__dict__.keys()),
+                    list(self.namespace.keys()),
+                    list(self.global_namespace.keys())]:
             for word in lst:
                 if word[:n] == text and word != "__builtins__":
                     match_append(word)
@@ -637,7 +637,7 @@ class IPCompleter(Completer):
         if ' ' in main_text and not main_text.startswith('sudo'):
             return []
         text = os.path.expanduser(text)
-        aliases =  self.alias_table.keys()
+        aliases =  list(self.alias_table.keys())
         if text == '':
             return aliases
         else:

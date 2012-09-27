@@ -113,7 +113,7 @@ class Configurable(HasTraits):
             # dynamically create the section with name self.__class__.__name__.
             if new._has_section(sname):
                 my_config = new[sname]
-                for k, v in traits.iteritems():
+                for k, v in traits.items():
                     # Don't allow traitlets with config=True to start with
                     # uppercase.  Otherwise, they are confused with Config
                     # subsections.  But, developers shouldn't have uppercase
@@ -160,7 +160,7 @@ class Configurable(HasTraits):
         final_help = []
         final_help.append(u'%s options' % cls.__name__)
         final_help.append(len(final_help[0])*u'-')
-        for k,v in sorted(cls.class_traits(config=True).iteritems()):
+        for k,v in sorted(cls.class_traits(config=True).items()):
             help = cls.class_get_trait_help(v, inst)
             final_help.append(help)
         return '\n'.join(final_help)
@@ -240,7 +240,7 @@ class Configurable(HasTraits):
             lines.append(c('%s will inherit config from: %s'%(cls.__name__, pstr)))
             lines.append('')
 
-        for name,trait in cls.class_traits(config=True).iteritems():
+        for name,trait in cls.class_traits(config=True).items():
             help = trait.get_metadata('help') or ''
             lines.append(c(help))
             lines.append('# c.%s.%s = %r'%(cls.__name__, name, trait.get_default_value()))

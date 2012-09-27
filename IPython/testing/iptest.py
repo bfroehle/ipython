@@ -192,7 +192,7 @@ def report():
     avail = []
     not_avail = []
 
-    for k, is_avail in have.items():
+    for k, is_avail in list(have.items()):
         if is_avail:
             avail.append(k)
         else:

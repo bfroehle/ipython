@@ -74,7 +74,7 @@ class Keymap(dict):
         return dict.get(self, key, default)
 
     def findkey(self, command, default=ipipe.noitem):
-        for (key, commandcandidate) in self.iteritems():
+        for (key, commandcandidate) in self.items():
             if commandcandidate == command:
                 return key
         if default is ipipe.noitem:
@@ -108,7 +108,7 @@ class _BrowserHelp(object):
     def __iter__(self):
         # Get reverse key mapping
         allkeys = {}
-        for (key, cmd) in self.browser.keymap.iteritems():
+        for (key, cmd) in self.browser.keymap.items():
             allkeys.setdefault(cmd, []).append(key)
 
         fields = ("key", "description")
@@ -292,7 +292,7 @@ class _BrowserLevel(object):
         # How must space have we got to display data?
         self.mainsizex = self.browser.scrsizex-self.numbersizex-3
         # width of all columns
-        self.datasizex = sum(self.colwidths.itervalues()) + len(self.colwidths)
+        self.datasizex = sum(self.colwidths.values()) + len(self.colwidths)
 
     def calcdisplayattr(self):
         # Find out which attribute the cursor is on and store this

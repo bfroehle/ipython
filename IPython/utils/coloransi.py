@@ -152,7 +152,7 @@ class ColorSchemeTable(dict):
 
     def copy(self):
         """Return full copy of object"""
-        return ColorSchemeTable(self.values(),self.active_scheme_name)
+        return ColorSchemeTable(list(self.values()),self.active_scheme_name)
 
     def add_scheme(self,new_scheme):
         """Add a new color scheme to the table."""
@@ -166,7 +166,7 @@ class ColorSchemeTable(dict):
         Names are by default compared in a case-insensitive way, but this can
         be changed by setting the parameter case_sensitive to true."""
 
-        scheme_names = self.keys()
+        scheme_names = list(self.keys())
         if case_sensitive:
             valid_schemes = scheme_names
             scheme_test = scheme

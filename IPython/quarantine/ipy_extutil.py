@@ -33,7 +33,7 @@ class ExtUtil:
             print('%-20s %s' % (n,m.__file__.replace('\\','/')))
     def _active(self):
         act = []
-        for mname,m in sys.modules.items():
+        for mname,m in list(sys.modules.items()):
             o = getattr(m, 'ip', None)
             if isinstance(o, InteractiveShell):
                 act.append((mname,m))

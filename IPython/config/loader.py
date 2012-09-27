@@ -85,7 +85,7 @@ class Config(dict):
 
     def _merge(self, other):
         to_update = {}
-        for k, v in other.iteritems():
+        for k, v in other.items():
             if k not in self:
                 to_update[k] = v
             else: # I have this key
@@ -126,7 +126,7 @@ class Config(dict):
 
     def __deepcopy__(self, memo):
         import copy
-        return type(self)(copy.deepcopy(self.items()))
+        return type(self)(copy.deepcopy(list(self.items())))
 
     def __getitem__(self, key):
         # We cannot use directly self._is_section_key, because it triggers
@@ -362,7 +362,7 @@ class CommandLineConfigLoader(ConfigLoader):
         if isinstance(cfg, (dict, Config)):
             # don't clobber whole config sections, update
             # each section from config:
-            for sec,c in cfg.iteritems():
+            for sec,c in cfg.items():
                 self.config[sec].update(c)
         else:
             raise TypeError("Invalid flag: %r" % cfg)
@@ -612,7 +612,7 @@ class ArgParseConfigLoader(CommandLineConfigLoader):
 
     def _convert_to_config(self):
         """self.parsed_data->self.config"""
-        for k, v in vars(self.parsed_data).iteritems():
+        for k, v in vars(self.parsed_data).items():
             py3compat.exec_("self.config.%s = v"%k, locals(), globals())
 
 class KVArgParseConfigLoader(ArgParseConfigLoader):
@@ -629,7 +629,7 @@ class KVArgParseConfigLoader(ArgParseConfigLoader):
         if flags is None:
             flags = self.flags
         paa = self.parser.add_argument
-        for key,value in aliases.iteritems():
+        for key,value in aliases.items():
             if key in flags:
                 # flags
                 nargs = '?'
@@ -639,7 +639,7 @@ class KVArgParseConfigLoader(ArgParseConfigLoader):
                 paa('-'+key, '--'+key, type=unicode, dest=value, nargs=nargs)
             else:
                 paa('--'+key, type=unicode, dest=value, nargs=nargs)
-        for key, (value, help) in flags.iteritems():
+        for key, (value, help) in flags.items():
             if key in self.aliases:
                 #
                 self.alias_flags[self.aliases[key]] = value
@@ -658,7 +658,7 @@ class KVArgParseConfigLoader(ArgParseConfigLoader):
         else:
             subcs = []
 
-        for k, v in vars(self.parsed_data).iteritems():
+        for k, v in vars(self.parsed_data).items():
             if v is None:
                 # it was a flag that shares the name of an alias
                 subcs.append(self.alias_flags[k])

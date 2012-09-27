@@ -262,7 +262,7 @@ class TaskScheduler(SessionFactory):
             return
         
         content = msg['content']
-        for uuid in content.get('engines', {}).values():
+        for uuid in list(content.get('engines', {}).values()):
             self._register_engine(cast_bytes(uuid))
 
     
@@ -336,7 +336,7 @@ class TaskScheduler(SessionFactory):
     def handle_stranded_tasks(self, engine):
         """Deal with jobs resident in an engine that died."""
         lost = self.pending[engine]
-        for msg_id in lost.keys():
+        for msg_id in list(lost.keys()):
             if msg_id not in self.pending[engine]:
                 # prevent double-handling of messages
                 continue
@@ -467,7 +467,7 @@ class TaskScheduler(SessionFactory):
     def audit_timeouts(self):
         """Audit all waiting tasks for expired timeouts."""
         now = datetime.now()
-        for msg_id in self.depending.keys():
+        for msg_id in list(self.depending.keys()):
             # must recheck, in case one failure cascaded to another:
             if msg_id in self.depending:
                 job = self.depending[msg_id]
@@ -702,7 +702,7 @@ class TaskScheduler(SessionFactory):
         # or b) dep_id was given as None
         
         if dep_id is None or self.hwm and any( [ load==self.hwm-1 for load in self.loads ]):
-            jobs = self.depending.keys()
+            jobs = list(self.depending.keys())
         
         for msg_id in sorted(jobs, key=lambda msg_id: self.depending[msg_id].timestamp):
             job = self.depending[msg_id]

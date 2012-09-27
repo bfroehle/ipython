@@ -38,7 +38,7 @@ ISO8601_PAT=re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+$")
 def rekey(dikt):
     """Rekey a dict that has been forced to use str keys where there should be
     ints by json."""
-    for k in dikt.iterkeys():
+    for k in dikt.keys():
         if isinstance(k, basestring):
             ik=fk=None
             try:
@@ -62,7 +62,7 @@ def extract_dates(obj):
     """extract ISO8601 dates from unpacked JSON"""
     if isinstance(obj, dict):
         obj = dict(obj) # don't clobber
-        for k,v in obj.iteritems():
+        for k,v in obj.items():
             obj[k] = extract_dates(v)
     elif isinstance(obj, (list, tuple)):
         obj = [ extract_dates(o) for o in obj ]
@@ -75,7 +75,7 @@ def squash_dates(obj):
     """squash datetime objects into ISO8601 strings"""
     if isinstance(obj, dict):
         obj = dict(obj) # don't clobber
-        for k,v in obj.iteritems():
+        for k,v in obj.items():
             obj[k] = squash_dates(v)
     elif isinstance(obj, (list, tuple)):
         obj = [ squash_dates(o) for o in obj ]
@@ -197,7 +197,7 @@ def json_clean(obj):
                              'key collision would lead to dropped values')
         # If all OK, proceed by making the new dict that will be json-safe
         out = {}
-        for k,v in obj.iteritems():
+        for k,v in obj.items():
             out[str(k)] = json_clean(v)
         return out
 

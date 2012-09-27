@@ -257,7 +257,7 @@ class WxConsoleView(stc.StyledTextCtrl):
         self.StyleSetSpec(stc.STC_STYLE_BRACEBAD,
                           "fore:#000000,back:#FF0000,bold")
 
-        for style in self.ANSI_STYLES.values():
+        for style in list(self.ANSI_STYLES.values()):
             self.StyleSetSpec(style[0], "bold,fore:%s" % style[1])
 
         #######################################################################
@@ -861,7 +861,7 @@ class IPShellWidget(wx.Panel):
 
     def reloadOptions(self,options):
         self.options = options
-        for key in self.options.keys():
+        for key in list(self.options.keys()):
             value = self.options[key]['value']
             self.options[key]['checkbox'].SetValue(self.options[key][value])
             self.options[key]['setfunc'](value)

@@ -167,7 +167,7 @@ class Application(SingletonConfigurable):
     flags = Dict()
     def _flags_changed(self, name, old, new):
         """ensure flags dict is valid"""
-        for key,value in new.iteritems():
+        for key,value in new.items():
             assert len(value) == 2, "Bad flag: %r:%s"%(key,value)
             assert isinstance(value[0], (dict, Config)), "Bad flag: %r:%s"%(key,value)
             assert isinstance(value[1], basestring), "Bad flag: %r:%s"%(key,value)
@@ -227,7 +227,7 @@ class Application(SingletonConfigurable):
             for c in cls.mro()[:-3]:
                 classdict[c.__name__] = c
 
-        for alias, longname in self.aliases.iteritems():
+        for alias, longname in self.aliases.items():
             classname, traitname = longname.split('.',1)
             cls = classdict[classname]
 
@@ -247,7 +247,7 @@ class Application(SingletonConfigurable):
             return
 
         lines = []
-        for m, (cfg,help) in self.flags.iteritems():
+        for m, (cfg,help) in self.flags.items():
             prefix = '--' if len(m) > 1 else '-'
             lines.append(prefix+m)
             lines.append(indent(dedent(help.strip())))
@@ -279,7 +279,7 @@ class Application(SingletonConfigurable):
         for p in wrap_paragraphs(self.subcommand_description):
             lines.append(p)
             lines.append('')
-        for subc, (cls, help) in self.subcommands.iteritems():
+        for subc, (cls, help) in self.subcommands.items():
             lines.append(subc)
             if help:
                 lines.append(indent(dedent(help.strip())))
@@ -381,7 +381,7 @@ class Application(SingletonConfigurable):
         # flatten aliases, which have the form:
         # { 'alias' : 'Class.trait' }
         aliases = {}
-        for alias, cls_trait in self.aliases.iteritems():
+        for alias, cls_trait in self.aliases.items():
             cls,trait = cls_trait.split('.',1)
             children = mro_tree[cls]
             if len(children) == 1:
@@ -392,9 +392,9 @@ class Application(SingletonConfigurable):
         # flatten flags, which are of the form:
         # { 'key' : ({'Cls' : {'trait' : value}}, 'help')}
         flags = {}
-        for key, (flagdict, help) in self.flags.iteritems():
+        for key, (flagdict, help) in self.flags.items():
             newflag = {}
-            for cls, subdict in flagdict.iteritems():
+            for cls, subdict in flagdict.items():
                 children = mro_tree[cls]
                 # exactly one descendent, promote flag section
                 if len(children) == 1:

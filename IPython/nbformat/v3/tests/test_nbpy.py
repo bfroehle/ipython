@@ -22,7 +22,7 @@ class TestPy(formattest.NBFormatTest, TestCase):
         elements.
         """
         if isinstance(da, dict):
-            for k,v in da.iteritems():
+            for k,v in da.items():
                 if k in self.ignored_keys:
                     continue
                 self.assertTrue(k in db)

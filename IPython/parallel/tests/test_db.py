@@ -132,13 +132,13 @@ class TaskDBTest:
         """ensure msg_id is always in found records"""
         found = self.db.find_records({'msg_id': {'$ne' : ''}},keys=['submitted', 'completed'])
         for rec in found:
-            self.assertTrue('msg_id' in rec.keys())
+            self.assertTrue('msg_id' in list(rec.keys()))
         found = self.db.find_records({'msg_id': {'$ne' : ''}},keys=['submitted'])
         for rec in found:
-            self.assertTrue('msg_id' in rec.keys())
+            self.assertTrue('msg_id' in list(rec.keys()))
         found = self.db.find_records({'msg_id': {'$ne' : ''}},keys=['msg_id'])
         for rec in found:
-            self.assertTrue('msg_id' in rec.keys())
+            self.assertTrue('msg_id' in list(rec.keys()))
     
     def test_find_records_in(self):
         """test finding records with '$in','$nin' operators"""

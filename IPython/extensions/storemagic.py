@@ -38,7 +38,7 @@ from IPython.utils.traitlets import Bool, Instance
     
 def restore_aliases(ip):
     staliases = ip.db.get('stored_aliases', {})
-    for k,v in staliases.items():
+    for k,v in list(staliases.items()):
         #print "restore alias",k,v # dbg
         #self.alias_table[k] = v
         ip.alias_manager.define_alias(k,v)

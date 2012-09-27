@@ -53,7 +53,7 @@ from .utils.frame import extract_module_locals
 
 # Release data
 __author__ = ''
-for author, email in release.authors.itervalues():
+for author, email in release.authors.values():
     __author__ += author + ' <' + email + '>\n'
 __license__  = release.license
 __version__  = release.version

@@ -103,14 +103,14 @@ class BuiltinTrap(Configurable):
         """Store ipython references in the builtin_mod namespace."""
 
         add_builtin = self.add_builtin
-        for name, func in self.auto_builtins.iteritems():
+        for name, func in self.auto_builtins.items():
             add_builtin(name, func)
 
     def deactivate(self):
         """Remove any builtins which might have been added by add_builtins, or
         restore overwritten ones to their previous values."""
         remove_builtin = self.remove_builtin
-        for key, val in self._orig_builtins.iteritems():
+        for key, val in self._orig_builtins.items():
             remove_builtin(key, val)
         self._orig_builtins.clear()
         self._builtins_added = False

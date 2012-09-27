@@ -74,7 +74,7 @@ class AsyncResultTest(ClusterTestCase):
         self.assertEqual(ar.get(), [5]*n)
         d = ar.get_dict()
         self.assertEqual(sorted(d.keys()), sorted(self.client.ids))
-        for eid,r in d.iteritems():
+        for eid,r in d.items():
             self.assertEqual(r, 5)
     
     def test_list_amr(self):

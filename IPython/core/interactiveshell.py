@@ -743,7 +743,7 @@ class InteractiveShell(SingletonConfigurable):
     def restore_sys_module_state(self):
         """Restore the state of the sys module."""
         try:
-            for k, v in self._orig_sys_module_state.iteritems():
+            for k, v in self._orig_sys_module_state.items():
                 setattr(sys, k, v)
         except AttributeError:
             pass
@@ -1175,7 +1175,7 @@ class InteractiveShell(SingletonConfigurable):
         Note that this does not include the displayhook, which also caches
         objects from the output."""
         return [self.user_ns, self.user_global_ns,
-                self._user_main_module.__dict__] + self._main_ns_cache.values()
+                self._user_main_module.__dict__] + list(self._main_ns_cache.values())
 
     def reset(self, new_session=True):
         """Clear all internal namespaces, and attempt to release references to
@@ -1255,7 +1255,7 @@ class InteractiveShell(SingletonConfigurable):
             # Also check in output history
             ns_refs.append(self.history_manager.output_hist)
             for ns in ns_refs:
-                to_delete = [n for n, o in ns.iteritems() if o is obj]
+                to_delete = [n for n, o in ns.items() if o is obj]
                 for name in to_delete:
                     del ns[name]
 
@@ -1346,7 +1346,7 @@ class InteractiveShell(SingletonConfigurable):
         variables : dict
           A dictionary mapping object names (as strings) to the objects.
         """
-        for name, obj in variables.iteritems():
+        for name, obj in variables.items():
             if name in self.user_ns and self.user_ns[name] is obj:
                 del self.user_ns[name]
                 self.user_ns_hidden.discard(name)
@@ -2395,7 +2395,7 @@ class InteractiveShell(SingletonConfigurable):
         out = {}
         user_ns = self.user_ns
         global_ns = self.user_global_ns
-        for key, expr in expressions.iteritems():
+        for key, expr in expressions.items():
             try:
                 value = repr(eval(expr, global_ns, user_ns))
             except:
@@ -2636,7 +2636,7 @@ class InteractiveShell(SingletonConfigurable):
                     
                     # Execute any registered post-execution functions.
                     # unless we are silent
-                    post_exec = [] if silent else self._post_execute.iteritems()
+                    post_exec = [] if silent else iter(self._post_execute.items())
                     
                     for func, status in post_exec:
                         if self.disable_failing_post_execute and not status:

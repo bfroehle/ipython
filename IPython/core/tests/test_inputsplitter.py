@@ -403,7 +403,7 @@ class InteractiveLoopTestCase(unittest.TestCase):
         # We can't check that the provided ns is identical to the test_ns,
         # because Python fills test_ns with extra keys (copyright, etc).  But
         # we can check that the given dict is *contained* in test_ns
-        for k,v in ns.iteritems():
+        for k,v in ns.items():
             self.assertEqual(test_ns[k], v)
 
     def test_simple(self):
@@ -655,7 +655,7 @@ class IPythonInputTestCase(InputSplitterTestCase):
     def test_syntax(self):
         """Call all single-line syntax tests from the main object"""
         isp = self.isp
-        for example in syntax.itervalues():
+        for example in syntax.values():
             for raw, out_t in example:
                 if raw.startswith(' '):
                     continue
@@ -668,7 +668,7 @@ class IPythonInputTestCase(InputSplitterTestCase):
 
     def test_syntax_multiline(self):
         isp = self.isp
-        for example in syntax_ml.itervalues():
+        for example in syntax_ml.values():
             out_t_parts = []
             raw_parts = []
             for line_pairs in example:
@@ -694,7 +694,7 @@ class BlockIPythonInputTestCase(IPythonInputTestCase):
 
     def test_syntax_multiline(self):
         isp = self.isp
-        for example in syntax_ml.itervalues():
+        for example in syntax_ml.values():
             raw_parts = []
             out_t_parts = []
             for line_pairs in example:
@@ -713,7 +713,7 @@ class BlockIPythonInputTestCase(IPythonInputTestCase):
 
     def test_syntax_multiline_cell(self):
         isp = self.isp
-        for example in syntax_ml.itervalues():
+        for example in syntax_ml.values():
 
             out_t_parts = []
             for line_pairs in example:

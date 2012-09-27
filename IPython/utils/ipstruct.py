@@ -211,7 +211,7 @@ class Struct(dict):
         >>> s1
         {'b': 30}
         """
-        for k in other.keys():
+        for k in list(other.keys()):
             if k in self:
                 del self[k]
         return self
@@ -223,7 +223,7 @@ class Struct(dict):
         the elements of each list as keys and the original keys as values.
         """
         outdict = {}
-        for k,lst in data.items():
+        for k,lst in list(data.items()):
             if isinstance(lst, str):
                 lst = lst.split()
             for entry in lst:
@@ -370,7 +370,7 @@ class Struct(dict):
         add_s    = lambda old,new: old + ' ' + new
 
         # default policy is to keep current keys when there's a conflict
-        conflict_solve = list2dict2(self.keys(), default = preserve)
+        conflict_solve = list2dict2(list(self.keys()), default = preserve)
 
         # the conflict_solve dictionary is given by the user 'inverted': we
         # need a name-function mapping, it comes as a function -> names
@@ -381,7 +381,7 @@ class Struct(dict):
             for name, func in [('preserve',preserve), ('update',update),
                                ('add',add), ('add_flip',add_flip),
                                ('add_s',add_s)]:
-                if name in inv_conflict_solve_user.keys():
+                if name in list(inv_conflict_solve_user.keys()):
                     inv_conflict_solve_user[func] = inv_conflict_solve_user[name]
                     del inv_conflict_solve_user[name]
             conflict_solve.update(self.__dict_invert(inv_conflict_solve_user))

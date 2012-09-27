@@ -174,7 +174,7 @@ def _import_mapping(mapping, original=None):
     """
     log = _logger()
     log.debug("Importing canning map")
-    for key,value in mapping.items():
+    for key,value in list(mapping.items()):
         if isinstance(key, basestring):
             try:
                 cls = import_item(key)
@@ -191,7 +191,7 @@ def can(obj):
     
     import_needed = False
     
-    for cls,canner in can_map.iteritems():
+    for cls,canner in can_map.items():
         if isinstance(cls, basestring):
             import_needed = True
             break
@@ -210,7 +210,7 @@ def can_dict(obj):
     """can the *values* of a dict"""
     if isinstance(obj, dict):
         newobj = {}
-        for k, v in obj.iteritems():
+        for k, v in obj.items():
             newobj[k] = can(v)
         return newobj
     else:
@@ -228,7 +228,7 @@ def uncan(obj, g=None):
     """invert canning"""
     
     import_needed = False
-    for cls,uncanner in uncan_map.iteritems():
+    for cls,uncanner in uncan_map.items():
         if isinstance(cls, basestring):
             import_needed = True
             break
@@ -246,7 +246,7 @@ def uncan(obj, g=None):
 def uncan_dict(obj, g=None):
     if isinstance(obj, dict):
         newobj = {}
-        for k, v in obj.iteritems():
+        for k, v in obj.items():
             newobj[k] = uncan(v,g)
         return newobj
     else:

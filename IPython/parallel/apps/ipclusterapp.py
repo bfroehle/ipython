@@ -598,7 +598,7 @@ class IPClusterApp(Application):
 
     def start(self):
         if self.subapp is None:
-            print("No subcommand specified. Must specify one of: %s"%(self.subcommands.keys()))
+            print("No subcommand specified. Must specify one of: %s"%(list(self.subcommands.keys())))
             print()
             self.print_description()
             self.print_subcommands()

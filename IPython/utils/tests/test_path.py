@@ -106,7 +106,7 @@ def teardown_environment():
     os.chdir(old_wd)
     reload(path)
 
-    for key in env.keys():
+    for key in list(env.keys()):
         if key not in oldenv:
             del env[key]
     env.update(oldenv)
