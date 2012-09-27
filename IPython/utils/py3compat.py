@@ -1,6 +1,5 @@
 # coding: utf-8
 """Compatibility tricks for Python 3. Mainly to do with unicode."""
-import __builtin__
 import functools
 import sys
 import re
@@ -102,6 +101,8 @@ else:
     PY3 = False
     
     input = raw_input
+
+    import __builtin__
     builtin_mod_name = "__builtin__"
     
     str_to_unicode = decode
