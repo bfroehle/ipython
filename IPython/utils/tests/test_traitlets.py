@@ -37,6 +37,9 @@ from IPython.utils.traitlets import (
 from IPython.utils import py3compat
 from IPython.testing.decorators import skipif
 
+if py3compat.PY3:
+    long = int
+
 #-----------------------------------------------------------------------------
 # Helper classes for testing
 #-----------------------------------------------------------------------------
@@ -668,20 +671,20 @@ class TestInt(TraitTestBase):
                       10.1, -10.1, '10L', '-10L', '10.1', '-10.1', u'10L',
                       u'-10L', u'10.1', u'-10.1',  '10', '-10', u'10', u'-10']
     if not py3compat.PY3:
-        _bad_values.extend([10L, -10L, 10*sys.maxint, -10*sys.maxint])
+        _bad_values.extend([long(10), -long(10), 10*sys.maxint, -10*sys.maxint])
 
 
 class LongTrait(HasTraits):
 
-    value = Long(99L)
+    value = Long(long(99))
 
 class TestLong(TraitTestBase):
 
     obj = LongTrait()
 
-    _default_value = 99L
-    _good_values   = [10, -10, 10L, -10L]
-    _bad_values    = ['ten', u'ten', [10], [10l], {'ten': 10},(10,),(10L,),
+    _default_value = long(99)
+    _good_values   = [10, -10, long(10), -long(10)]
+    _bad_values    = ['ten', u'ten', [10], [long(10)], {'ten': 10},(10,),(long(10),),
                       None, 1j, 10.1, -10.1, '10', '-10', '10L', '-10L', '10.1',
                       '-10.1', u'10', u'-10', u'10L', u'-10L', u'10.1',
                       u'-10.1']
@@ -712,7 +715,7 @@ class TestInteger(TestLong):
         if py3compat.PY3:
             raise SkipTest("not relevant on py3")
 
-        self.obj.value = 100L
+        self.obj.value = long(100)
         self.assertEqual(type(self.obj.value), int)
 
 
@@ -730,7 +733,7 @@ class TestFloat(TraitTestBase):
                       1j, '10', '-10', '10L', '-10L', '10.1', '-10.1', u'10',
                       u'-10', u'10L', u'-10L', u'10.1', u'-10.1']
     if not py3compat.PY3:
-        _bad_values.extend([10L, -10L])
+        _bad_values.extend([long(10), -long(10)])
 
 
 class ComplexTrait(HasTraits):
@@ -746,7 +749,7 @@ class TestComplex(TraitTestBase):
                       10.1j, 10.1+10.1j, 10.1-10.1j]
     _bad_values    = [u'10L', u'-10L', 'ten', [10], {'ten': 10},(10,), None]
     if not py3compat.PY3:
-        _bad_values.extend([10L, -10L])
+        _bad_values.extend([long(10), -long(10)])
 
 
 class BytesTrait(HasTraits):
@@ -760,7 +763,7 @@ class TestBytes(TraitTestBase):
     _default_value = b'string'
     _good_values   = [b'10', b'-10', b'10L',
                       b'-10L', b'10.1', b'-10.1', b'string']
-    _bad_values    = [10, -10, 10L, -10L, 10.1, -10.1, 1j, [10],
+    _bad_values    = [10, -10, long(10), -long(10), 10.1, -10.1, 1j, [10],
                       ['ten'],{'ten': 10},(10,), None,  u'string']
 
 
@@ -775,7 +778,7 @@ class TestUnicode(TraitTestBase):
     _default_value = u'unicode'
     _good_values   = ['10', '-10', '10L', '-10L', '10.1',
                       '-10.1', '', u'', 'string', u'string', u"€"]
-    _bad_values    = [10, -10, 10L, -10L, 10.1, -10.1, 1j,
+    _bad_values    = [10, -10, long(10), -long(10), 10.1, -10.1, 1j,
                       [10], ['ten'], [u'ten'], {'ten': 10},(10,), None]
 
 

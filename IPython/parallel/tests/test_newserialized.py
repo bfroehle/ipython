@@ -63,7 +63,7 @@ class CanningTestCase(TestCase):
         self.assertEqual(uus, us)
 
     def test_pickle_serialized(self):
-        obj = {'a':1.45345, 'b':'asdfsdf', 'c':10000L}
+        obj = {'a':1.45345, 'b':'asdfsdf', 'c':10000}
         original = ns.UnSerialized(obj)
         originalSer = ns.SerializeIt(original)
         firstData = originalSer.getData()
