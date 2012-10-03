@@ -19,7 +19,8 @@ somewhere and run ipython.py) and development. """
 # Imports
 #-----------------------------------------------------------------------------
 
-import importlib.machinery
+import collections
+import errno
 import logging
 import os
 import sys
@@ -27,6 +28,21 @@ import warnings
 
 from lib2to3 import refactor
 
+try:
+    from importlib.machinery import FileFinder, SourceFileLoader, \
+         SOURCE_SUFFIXES
+except ImportError:
+    # Python <= 3.2
+    from importlib._bootstrap import _FileFinder as FileFinder, \
+         _SourceFileLoader as SourceFileLoader, _suffix_list
+    import imp
+    SOURCE_SUFFIXES = _suffix_list(imp.PY_SOURCE)
+
+# Python 3.2 wants an object, Python 3.3 wants a tuple.
+FileFinderDetail = collections.namedtuple(
+    'FileFinderDetail',
+    'loader suffixes')
+FileFinderDetail.supports_packages = True
 
 #-----------------------------------------------------------------------------
 # Logging
@@ -40,7 +56,7 @@ from lib2to3 import refactor
 # Classes
 #-----------------------------------------------------------------------------
 
-class Auto2to3FileFinder(importlib.machinery.FileFinder):
+class Auto2to3FileFinder(FileFinder):
     """File finder for source types ('.py') which automatically
     runs the 2to3 refactoring tool on import.
 
@@ -66,23 +82,24 @@ class Auto2to3FileFinder(importlib.machinery.FileFinder):
         def predicated_path_hook_for_FileFinder(path):
             """path hook for FileFinder"""
             if not os.path.isdir(path):
-                raise ImportError("only directories are supported", path=path)
+                raise ImportError("only directories are supported")
             if not predicate(path):
-                raise ImportError("predicate not satisfied", path=path)
+                raise ImportError("predicate not satisfied")
             return cls(path, *loader_details)
         return predicated_path_hook_for_FileFinder
 
     def __init__(self, path, refactoring_tool):
         logger = logging.getLogger('Auto2to3FileFinder')
         logger.debug("Processing %s" % path)
-        auto2to3 = (Auto2to3SourceFileLoader.loader(refactoring_tool),
-                    importlib.machinery.SOURCE_SUFFIXES)
+        auto2to3 = FileFinderDetail(
+            Auto2to3SourceFileLoader.loader(refactoring_tool),
+            SOURCE_SUFFIXES)
         super().__init__(path, auto2to3)
 
     def __repr__(self):
         return "%s(%r)" % (self.__class__.__name__, self.path)
 
-class Auto2to3SourceFileLoader(importlib.machinery.SourceFileLoader):
+class Auto2to3SourceFileLoader(SourceFileLoader):
     """Source file loader which runs source code through 2to3.
 
     Initial source loading will be _very_ slow, but results are cached
@@ -136,9 +153,12 @@ class Auto2to3SourceFileLoader(importlib.machinery.SourceFileLoader):
         try:
             cache_stats = os.stat(cache)
             source_stats = os.stat(path)
-        except FileNotFoundError:
-            self.logger.debug('Cache miss: %s' % cache)
-            return None
+        except OSError as e:
+            if e.errno == errno.ENOENT: # FileNotFoundError
+                self.logger.debug('Cache miss: %s' % cache)
+                return None
+            else:
+                raise
 
         if cache_stats.st_mtime <= source_stats.st_mtime:
             self.logger.debug('Cache miss (stale): %s' % cache)
