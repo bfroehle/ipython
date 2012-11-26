@@ -48,7 +48,10 @@ TIMEOUT_STORAGE = 2
 TIMEOUT_GIVEUP = 20
 
 # Regular expression for the python import statement
-import_re = re.compile(r'.*(\.so|\.py[cod]?)$')
+import_re = re.compile('(?P<name>[a-zA-Z_][a-zA-Z0-9_]*?)'
+                       '(?P<package>[/\\\\]__init__)?'
+                       '(?P<suffix>%s)$' %
+                       '|'.join(re.escape(s[0]) for s in imp.get_suffixes()))
 
 # RE for the ipython %run command (python + ipython scripts)
 magic_run_re = re.compile(r'.*(\.ipy|\.py[w]?)$')
@@ -67,35 +70,47 @@ def module_list(path):
         path = '.'
 
     if os.path.isdir(path):
-        folder_list = os.listdir(path)
-    elif path.endswith('.egg'):
-        try:
-            folder_list = [f for f in zipimporter(path)._files]
-        except:
-            folder_list = []
-    else:
-        folder_list = []
+        return _module_list_directory(path)
 
-    if not folder_list:
-        return []
+    # Try the path as a zipfile:
+    try:
+        return _module_list_egg(path)
+    except:
+        pass
 
-    # A few local constants to be used in loops below
+    return []
+
+def _module_list_directory(path):
+    """Return a list of importable modules in the given folder."""
+
     isfile = os.path.isfile
     pjoin = os.path.join
-    basename = os.path.basename
 
-    def is_importable_file(path):
-        """Returns True if the provided path is a valid importable module"""
-        name, extension = os.path.splitext( path )
-        return import_re.match(path) and py3compat.isidentifier(name)
+    def is_package(p):
+        """Returns True if the path is an importable package."""
+        return any(isfile(pjoin(path, p, '__init__' + suffix[0]))
+                   for suffix in imp.get_suffixes())
 
-    # Now find actual path matches for packages or modules
-    folder_list = [p for p in folder_list
-                   if any(isfile(pjoin(path, p, '__init__' + suffix[0])) for
-                       suffix in imp.get_suffixes())
-                   or is_importable_file(p) ]
+    modules = []
+    for p in os.listdir(path):
+        m = import_re.match(p)
+        if m:
+            modules.append(m.group('name'))
+        elif py3compat.isidentifier(p) and is_package(p):
+            modules.append(p)
 
-    return [basename(p).split('.')[0] for p in folder_list]
+    return modules
+
+def _module_list_egg(path):
+    """Return a list of importable modules in the given egg file."""
+
+    files = zipimporter(path)._files
+    modules = []
+    for p in files.keys():
+        m = import_re.match(p)
+        if m:
+            modules.append(m.group('name'))
+    return list(set(modules)) # ensure unique
 
 def get_root_modules():
     """
