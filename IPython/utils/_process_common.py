@@ -39,7 +39,7 @@ def read_no_interrupt(p):
             raise
 
 
-def process_handler(cmd, callback, stderr=subprocess.PIPE):
+def process_handler(cmd, callback, stderr=subprocess.PIPE, shell=True):
     """Open a command in a shell subprocess and execute a callback.
 
     This function provides common scaffolding for creating subprocess.Popen()
@@ -68,7 +68,7 @@ def process_handler(cmd, callback, stderr=subprocess.PIPE):
     sys.stderr.flush()
     # On win32, close_fds can't be true when using pipes for stdin/out/err
     close_fds = sys.platform != 'win32'
-    p = subprocess.Popen(cmd, shell=True,
+    p = subprocess.Popen(cmd, shell=shell,
                          stdin=subprocess.PIPE,
                          stdout=subprocess.PIPE,
                          stderr=stderr,
@@ -102,7 +102,7 @@ def process_handler(cmd, callback, stderr=subprocess.PIPE):
     return out
 
 
-def getoutput(cmd):
+def getoutput(cmd, shell=True):
     """Run a command and return its stdout/stderr as a string.
 
     Parameters
@@ -118,13 +118,13 @@ def getoutput(cmd):
     file descriptors (so the order of the information in this string is the
     correct order as would be seen if running the command in a terminal).
     """
-    out = process_handler(cmd, lambda p: p.communicate()[0], subprocess.STDOUT)
+    out = process_handler(cmd, lambda p: p.communicate()[0], subprocess.STDOUT, shell=shell)
     if out is None:
         return ''
     return py3compat.bytes_to_str(out)
 
 
-def getoutputerror(cmd):
+def getoutputerror(cmd, shell=True):
     """Return (standard output, standard error) of executing cmd in a shell.
 
     Accepts the same arguments as os.system().
@@ -140,7 +140,7 @@ def getoutputerror(cmd):
     stderr : str
     """
 
-    out_err = process_handler(cmd, lambda p: p.communicate())
+    out_err = process_handler(cmd, lambda p: p.communicate(), shell=shell)
     if out_err is None:
         return '', ''
     out, err = out_err

@@ -183,21 +183,21 @@ def ipexec(fname, options=None):
                     '--PromptManager.in2_template=""',
                     '--PromptManager.out_template=""'
     ]
-    cmdargs = ' '.join(default_argv() + prompt_opts + options)
+    cmdargs = default_argv() + prompt_opts + options
 
     _ip = get_ipython()
     test_dir = os.path.dirname(__file__)
-    
+
     # FIXME: remove workaround for 2.6 support
     if sys.version_info[:2] > (2,6):
-        ipython_cmd = pipes.quote(sys.executable) + " -m IPython"
+        ipython_cmd = [sys.executable, '-m', 'IPython']
     else:
-        ipython_cmd = "ipython"
+        ipython_cmd = ['ipython']
     # Absolute path for filename
     full_fname = os.path.join(test_dir, fname)
-    full_cmd = '%s %s %s' % (ipython_cmd, cmdargs, full_fname)
-    #print >> sys.stderr, 'FULL CMD:', full_cmd # dbg
-    out, err = getoutputerror(full_cmd)
+    full_cmd = ipython_cmd + cmdargs + [full_fname]
+    #print >> sys.stderr, 'FULL CMD:', ' '.join(full_cmd) # dbg
+    out, err = getoutputerror(full_cmd, shell=False)
     # `import readline` causes 'ESC[?1034h' to be output sometimes,
     # so strip that out before doing comparisons
     if out:
